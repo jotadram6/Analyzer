@@ -17,7 +17,7 @@ NRecoJet1	      0   -1
 NRecoJet2	      0   -1
 NRecoCentralJet	      0   -1
 NRecoBJet	      0   -1
-NRecoTriggers1	      0   -1           ///only 0 or 1
+NRecoTriggers1	      1   -1           ///only 0 or 1
 NRecoTriggers2	      0   -1           ///only 0 or 1
 NRecoFirstLeadingJet  0   -1     ///only 0 or 1
 NRecoSecondLeadingJet 0   -1    ///only 0 or 1
@@ -36,14 +36,18 @@ NDiElectronCombinations	   0   -1
 ***NDiTauCombinations	   1   -1
 NDiJetCombinations	   0   -1
 			   
-NMuon1Tau1Combinations       0   -1
-NMuon1Tau2Combinations 	     0   -1
-NMuon2Tau1Combinations 	     0   -1
-NMuon2Tau2Combinations 	     0   -1
-NElectron1Tau1Combinations   0   -1
-NElectron1Tau2Combinations   0   -1
-NElectron2Tau1Combinations   0   -1
-NElectron2Tau2Combinations   0   -1
+NMuon1Tau1Combinations        0   -1
+NMuon1Tau2Combinations 	      0   -1
+NMuon2Tau1Combinations 	      0   -1
+NMuon2Tau2Combinations 	      0   -1
+NElectron1Tau1Combinations    0   -1
+NElectron1Tau2Combinations    0   -1
+NElectron2Tau1Combinations    0   -1
+NElectron2Tau2Combinations    0   -1
+NMuon1Electron1Combinations   0   -1
+NMuon1Electron2Combinations   0   -1
+NMuon2Electron1Combinations   0   -1
+NMuon2Electron2Combinations   0   -1
 
 NSusyCombinations       0   -1   ///only 0 or 1
 

@@ -47,15 +47,7 @@ smear_org = ["Jet", "Tau", "Muon", "Electron"]
 
 run_stat = ["CalculatePUSystematics","DataHistos", "MCHistos", "isData", "Trigger1FirstRequirement", 
             "Trigger1SecondRequirement", "Trigger2FirstRequirement", "Trigger2SecondRequirement", "TreatMuonsAsNeutrinos",
-            "JetPtForMhtAndHt", "JetEtaForMhtAndHt", "ApplyJetLooseIDforMhtAndHt"
-DiscrByMet
-RecoMetCut 30.0 10000.0
-
-DiscrByMHT false
-MhtCut 50.0
-DiscrByHT false
-HtCut 30.0
-
+            "JetPtForMhtAndHt", "JetEtaForMhtAndHt", "ApplyJetLooseIDforMhtAndHt"]
 partID ="TauID 15.\nTauStatus 2.\n\nTopID 6.\nTopStatus 2.\n\nElectronID 11.\nElectronStatus 1.\n\nMuonID 13.\nMuonStatus 1.\n\nZID 23.\nZStatus 2.\n\nWID 24.\nWStatus 2.\n\nHiggsID 25.\nHiggsStatus 2.\n"
 
 

@@ -10,3 +10,5 @@ Analyzer
 Histo
 Particle
 work_svfit
+PartDet/*.in
+*.C

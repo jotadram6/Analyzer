@@ -38,7 +38,7 @@ Jet::Jet(TTree* BOOM, string filename) : Particle(BOOM, "Jet", filename) {
   BOOM->SetBranchStatus("Jet_chargedMultiplicity", 1);
   BOOM->SetBranchStatus("Jet_chargedEmEnergyFraction", 1);
   BOOM->SetBranchStatus("Jet_partonFlavour", 1);
-  BOOM->SetBranchStatus("Jet_bDiscriminator", 1);
+  BOOM->SetBranchStatus("Jet_bDiscriminator_pfCISVV2", 1);
 
   BOOM->SetBranchAddress("Jet_neutralHadEnergyFraction", &neutralHadEnergyFraction);
   BOOM->SetBranchAddress("Jet_neutralEmEmEnergyFraction", &neutralEmEmEnergyFraction);
@@ -48,7 +48,7 @@ Jet::Jet(TTree* BOOM, string filename) : Particle(BOOM, "Jet", filename) {
   BOOM->SetBranchAddress("Jet_chargedMultiplicity", &chargedMultiplicity);
   BOOM->SetBranchAddress("Jet_chargedEmEnergyFraction", &chargedEmEnergyFraction);
   BOOM->SetBranchAddress("Jet_partonFlavour", &partonFlavour);
-  BOOM->SetBranchAddress("Jet_bDiscriminator", &bDiscriminator);
+  BOOM->SetBranchAddress("Jet_bDiscriminator_pfCISVV2", &bDiscriminator);
 }
     
 //template <typename T>
