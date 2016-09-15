@@ -35,6 +35,7 @@
 #include "Particle.h"
 #include "Histo.h"
 #include "./svfit/SVfitStandaloneAlgorithm.h"
+#include "./btagging/BTagCalibrationStandalone.h"
 
 //#include <ctime>
 
@@ -120,8 +121,8 @@ class Analyzer {
 
   unordered_map<string, PartStats> distats;
 
-  vector<int>* trigPlace[nTrigReq];
-  vector<string>* trigName[nTrigReq];
+  vector<int> trigPlace[nTrigReq];
+  vector<string> trigName[nTrigReq];
 
   PartStats genStat;
   unordered_map<string, double> genMap;
@@ -144,6 +145,12 @@ class Analyzer {
   double Met_py = 0;
   double Met_pz = 0;
   TMatrixD MetCov;
+  TH1* extraWeight;
+
+  
+  BTagCalibration calib = BTagCalibration("csvv1", "Pileup/btagging.csv");
+  BTagCalibrationReader reader = BTagCalibrationReader(BTagEntry::OP_TIGHT, "central");
+
 
   double pu_weight, wgt;
   unordered_map<CUTS, bool, EnumHash> need_cut;

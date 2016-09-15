@@ -1,0 +1,20 @@
+Run
+
+TreatMuonsAsNeutrinos         0
+JetPtForMhtAndHt             30.0
+JetEtaForMhtAndHt            5.0
+ApplyJetLooseIDforMhtAndHt    0
+Trigger1FirstRequirement     HLT_IsoMu22_v
+Trigger2FirstRequirement     HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v
+Trigger2SecondRequirement    HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v
+CalculatePUSystematics        true
+DataHistos                   PU2016data_15p9ifb.root //PU2016data_15p9ifb.root
+MCHistos                     PU2016MC.root
+isData                        false
+DiscrByMet                    true
+ApplyGenWeight		      false
+RecoMetCut                   30.0  10000.0
+DiscrByMHT                      0        
+MhtCut                       30.0        
+DiscrByHT                       0        
+HtCut                        30.0        

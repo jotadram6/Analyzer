@@ -36,7 +36,7 @@ void Piece1D::bin(int folder, double y, double weight) {
 
 void Piece1D::write_histogram(vector<string>& folders, TFile* outfile) {
   double entries;
-  TH1F histogram(name.c_str(), name.c_str(), bins, begin, end);
+  TH1D histogram(name.c_str(), name.c_str(), bins, begin, end);
   for(int i = 0; i<Nfold; i++) {
     outfile->cd(folders.at(i).c_str());
     entries = 0;
@@ -99,7 +99,7 @@ void Piece2D::bin(int folder, double x, double y, double weight) {
 
 void Piece2D::write_histogram(vector<string>& folders, TFile* outfile) {
   double entries;
-  TH2F histogram(name.c_str(), name.c_str(), binx, beginx, endx, biny, beginy, endy);
+  TH2D histogram(name.c_str(), name.c_str(), binx, beginx, endx, biny, beginy, endy);
 
   for(int i = 0; i<Nfold; i++) {
     

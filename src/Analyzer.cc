@@ -10,6 +10,9 @@ typedef vector<int>::iterator vec_iter;
 //Filespace that has all of the .in files
 const string FILESPACE = "PartDet/";
 const string PUSPACE = "Pileup/";
+
+//srand(0);
+
 //////////PUBLIC FUNCTIONS////////////////////
 
 ///Constructor
@@ -27,14 +30,25 @@ Analyzer::Analyzer(string infile, string outfile) : hPUmc(new TH1F("hPUmc", "hPU
   MetCov[1][0] = 0;
   MetCov[1][1] = 0;
 
-  for(int i=0; i < nTrigReq; i++) {
-    vector<int>* tmpi = new vector<int>();
-    vector<string>* tmps = new vector<string>();
-    trigPlace[i] = tmpi;
-    trigName[i] = tmps;
-  }
+  // for(int i=0; i < nTrigReq; i++) {
+  //   vector<int> tmpi;
+  //   vector<string>* tmps;
+  //   trigPlace[i] = tmpi;
+  //   trigName[i] = tmps;
+  // }
+
+  srand(0);
 
   setupGeneral(BOOM,infile);
+  
+  TFile* tmpfile = new TFile((PUSPACE +"extra.root").c_str());
+  extraWeight = (TH1*)(tmpfile->FindObjectAny("extra")->Clone());
+  //  tmpfile->Close();
+  //  calib = BTagCalibration("csvv1", "CSVv2_ichep.csv");
+  
+  reader.load(calib, BTagEntry::FLAV_B, "comb");
+  
+  
 
   isData = distats["Run"].bmap.at("isData");
   CalculatePUSystematics = distats["Run"].bmap.at("CalculatePUSystematics");
@@ -69,17 +83,21 @@ Analyzer::Analyzer(string infile, string outfile) : hPUmc(new TH1F("hPUmc", "hPU
 
 ////destructor
 Analyzer::~Analyzer() {
-  delete f;
+  cout << "start" << endl;
+  f->Close();
   delete _Electron;
   delete _Muon;
   delete _Tau;
   delete _Jet;
   if(!isData) delete _Gen;
+  // delete[] trigPlace;
+  // delete[] trigName;
+  // for(int i=0; i < nTrigReq; i++) {
+  //   delete trigPlace[i];
+  //   delete trigName[i];
+  // }
   
-  for(int i=0; i < nTrigReq; i++) {
-    delete trigPlace[i];
-    delete trigName[i];
-  }
+  cout << "end" << endl;
 }
 
 
@@ -105,6 +123,7 @@ void Analyzer::preprocess(int event) {
   
   theMETVector.SetPxPyPzE(Met_px, Met_py, Met_pz, sqrt(pow(Met_px,2) + pow(Met_py,2)));
   pu_weight = (!isData && CalculatePUSystematics) ? getPileupWeight(nTruePU) : 1.0;
+  pu_weight *= (!isData && CalculatePUSystematics) ? extraWeight->GetBinContent(bestVertices+1) : 1.0;
 
   // SET NUMBER OF GEN PARTICLES
   // TODOGeneralize to remove magic numbers
@@ -127,8 +146,8 @@ void Analyzer::preprocess(int event) {
 
   //////Triggers and Vertices
   goodParts[ival(CUTS::eRVertex)].resize(bestVertices);
-  TriggerCuts(*(trigPlace[0]), *(trigName[0]), CUTS::eRTrig1);
-  TriggerCuts(*(trigPlace[1]), *(trigName[1]), CUTS::eRTrig2);
+  TriggerCuts((trigPlace[0]), (trigName[0]), CUTS::eRTrig1);
+  TriggerCuts((trigPlace[1]), (trigName[1]), CUTS::eRTrig2);
 
   // // SET NUMBER OF RECO PARTICLES
   // // MUST BE IN ORDER: Muon/Electron, Tau, Jet
@@ -365,8 +384,8 @@ void Analyzer::read_info(string filename) {
     } else if(stemp.size() == 2) {
       if(stemp.at(0).find("Trigger") != string::npos) {
 	int ntrig = (stemp.at(0).find("1") != string::npos) ? 0 : 1;
-	trigName[ntrig]->push_back(stemp.at(1));
-	trigPlace[ntrig]->push_back(0);
+	trigName[ntrig].push_back(stemp.at(1));
+	trigPlace[ntrig].push_back(0);
 	continue;
       }
 	
@@ -671,6 +690,17 @@ void Analyzer::getGoodRecoJets(CUTS ePos, const PartStats& stats) {
     if(stats.bmap.at("RemoveOverlapWithTau2s") && isOverlaping(lvec, *_Tau, CUTS::eRTau2, stats.dmap.at("Tau2MatchingDeltaR"))) continue;
 
     /////fill up array
+    
+    if(ePos == CUTS::eRBJet && !isData) {
+      double bjet_SF = reader.eval_auto_bounds("central", BTagEntry::FLAV_B, lvec.Eta(), lvec.Pt());
+      if(bjet_SF > 1) {
+	cout << "didn't pass" << endl;
+      }
+      if(((double) rand()/(RAND_MAX)) >  0.813/*bjet_SF*/) {
+	continue;
+      }
+    }
+
     goodParts[ival(ePos)].push_back(i);    
   }
   
