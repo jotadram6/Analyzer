@@ -1083,7 +1083,7 @@ void Analyzer::fill_histogram() {
 ///Function that fills up the histograms
 void Analyzer::fill_Folder(string group, int max) {
   if(group == "FillRun") {
-    histo.addVal(false, group,histo.get_groups()->size(), "Events", wgt);
+    histo.addVal(false, group,histo.get_groups()->size(), "Events", 1);
     histo.addVal(true, group,max, "Events", wgt);
     histo.addVal(bestVertices, group,max, "NVertices", wgt);
 
