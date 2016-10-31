@@ -7,15 +7,12 @@ DataHistos PU2016data_6p2ifb.root
 MCHistos PU2016MC.root
 
 isData false
+ApplyGenWeight  true
 
 ///------Triggers-----///
 
 Trigger1FirstRequirement HLT_IsoMu24_eta2p1_v
 Trigger1SecondRequirement HLT_IsoMu18_v
-
-
-// Trigger1FirstRequirement HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v
-// Trigger1SecondRequirement HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v
 
 Trigger2FirstRequirement HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v
 Trigger2SecondRequirement HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v

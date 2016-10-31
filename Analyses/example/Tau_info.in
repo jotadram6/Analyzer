@@ -25,7 +25,7 @@ EtaCut 2.5
 PtCut 20.0 9999.9
 
 DoDiscrByLeadTrack false
-LaaaeadTrackThreshold 3.0
+LeadTrackThreshold 3.0
 
   #####List of Isolation#####
   ##

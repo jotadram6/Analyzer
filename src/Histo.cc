@@ -182,11 +182,11 @@ void Histogramer::fill_histogram() {
   for(vector<string>::iterator it = folders.begin(); it != folders.end(); it++) {
     outfile->mkdir( it->c_str() );	
   }
-    
+  
   for(vector<string>::iterator it = data_order.begin(); it != data_order.end(); ++it) {
     data[*it]->write_histogram(outfile, folders);
   }
-
+  outfile->Close();
 }  
 
 
