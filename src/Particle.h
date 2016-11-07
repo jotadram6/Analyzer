@@ -5,32 +5,19 @@
 #include <memory>
 
 // user include files
-#include <Math/VectorUtil.h>
 #include <fstream>
-#include <TH1.h>
-#include <TH2.h>
-#include <TFile.h>
-#include <TTree.h>
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <sstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <TRandom3.h>
-#include <TMath.h>
 #include <iostream>
-#include <iomanip>
-#include <utility>
-#include <TROOT.h>
+
+#include <TTree.h>
 #include <TBranch.h>
-#include <TApplication.h>
-#include <TChain.h>
-#include <TDirectory.h>
 #include <TLorentzVector.h>
-#include <TEnv.h>
+
 #include "tokenizer.hpp"
 #include "Cut_enum.h"
+
 
 using namespace std;
 
@@ -41,6 +28,8 @@ struct PartStats {
   unordered_map<string,bool> bmap;
 };
 
+
+enum class PType { Electron, Muon, Tau, Jet, None};
 
 class Particle {
 
@@ -55,13 +44,10 @@ class Particle {
   vector<double>* phi = 0;
   vector<double>* energy = 0;
 
+  PType type;
   unordered_map<string, PartStats> pstats;
-
   vector<TLorentzVector> smearP;
 };
-
-///template <typename T> vector<TLorentzVector> Particle<T>::smearP = {}; 
-
 
 /////////////////////////////////////////////////////////////////
 class Generated : public Particle {
@@ -94,20 +80,22 @@ public:
   vector<double>* bDiscriminator = 0;
 };
 
-
 class Lepton : public Particle {
 
 public: 
   Lepton(TTree*, string, string);
 
   vector<double>* charge = 0;
-
+  
+  virtual bool get_Iso(int, double, double) const {return false;}
 };
 
 class Electron : public Lepton {
 
 public:
   Electron(TTree*, string);
+
+  bool get_Iso(int, double, double) const;
 
    vector<int>     *isPassVeto = 0;
    vector<int>     *isPassLoose = 0;
@@ -125,6 +113,8 @@ class Muon : public Lepton {
 public: 
   Muon(TTree*, string);
 
+  bool get_Iso(int, double, double) const;
+
    vector<bool>* tight = 0;
    vector<bool>* soft = 0;
    vector<double>* isoCharged = 0;
@@ -137,6 +127,8 @@ class Taus : public Lepton {
 
  public:
   Taus(TTree*, string);
+
+  bool get_Iso(int, double, double) const;
 
    vector<int>     *decayModeFindingNewDMs = 0;
    vector<double>  *nProngs = 0;

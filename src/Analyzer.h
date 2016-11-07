@@ -34,7 +34,6 @@
 #include <TEnv.h>
 #include "Particle.h"
 #include "Histo.h"
-#include "./svfit/SVfitStandaloneAlgorithm.h"
 
 //#include <ctime>
 
@@ -85,8 +84,6 @@ class Analyzer {
   void VBFTopologyCut();
   void TriggerCuts(vector<int>&, const vector<string>&, CUTS);
 
-  void SVFit(const Lepton&, const Lepton&, CUTS, svFitStandalone::kDecayType, svFitStandalone::kDecayType, string, int, double);
-  pair<svFitStandalone::kDecayType, svFitStandalone::kDecayType> getTypePair(CUTS ePos);
 
   double calculateLeptonMetMt(const TLorentzVector&);
   double diParticleMass(const TLorentzVector&, const TLorentzVector&, string);
@@ -98,8 +95,10 @@ class Analyzer {
   bool isInTheCracks(float);
   bool passedLooseJetID(int);
 
-  double getPZeta(const TLorentzVector&, const TLorentzVector&);
-  double getPZetaVis(const TLorentzVector&, const TLorentzVector&);
+  pair<double, double> getPZeta(const TLorentzVector&, const TLorentzVector&);
+
+
+  inline bool passCutRange(string, double, const PartStats&);  
   double normPhi(double);
   double absnormPhi(double);
 
@@ -108,8 +107,7 @@ class Analyzer {
 
   TFile* f;
   TTree* BOOM;
-  TH1F *hPUmc;
-  TH1F *hPUdata;
+  TH1D *hPU;
 
   Generated* _Gen;
   Electron* _Electron;
@@ -125,13 +123,14 @@ class Analyzer {
 
   PartStats genStat;
   unordered_map<string, double> genMap;
-  std::array<std::vector<int>, static_cast<int>(CUTS::enumSize)> goodParts;
+  const std::array<std::vector<int>*, static_cast<int>(CUTS::enumSize)> goodParts;
   
   vector<int> cuts_per, cuts_cumul;
 
   TLorentzVector theMETVector;
   double deltaMEx, deltaMEy, sumpxForMht, sumpyForMht, sumptForHt, phiForMht;
-  double againstElectron, againstMuon, maxIso, minIso;
+
+  double maxIso, minIso;
   int leadIndex, maxCut;
   bool isData, CalculatePUSystematics;
 
@@ -140,10 +139,9 @@ class Analyzer {
   float nTruePU = 0;
   int bestVertices = 0;
   double gen_weight = 0;
-  double Met_px = 0;
-  double Met_py = 0;
-  double Met_pz = 0;
-  TMatrixD MetCov;
+  double Met[3] = {0, 0, 0};
+
+
 
   double pu_weight, wgt;
   unordered_map<CUTS, bool, EnumHash> need_cut;
