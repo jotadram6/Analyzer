@@ -106,11 +106,7 @@ Analyzer::Analyzer(string infile, string outfile) : goodParts(getArray()) {
   CalculatePUSystematics = distats["Run"].bmap.at("CalculatePUSystematics");
   histo = Histogramer(1, FILESPACE+"Hist_entries.in", FILESPACE+"Cuts.in", outfile, isData);
 
-
-
   initializePileupInfo(distats["Run"].smap.at("MCHistos"), distats["Run"].smap.at("DataHistos"));
-
-  //////need to initialize histo and get values for cut arrays
 
   cuts_per.resize(histo.get_cuts()->size());
   cuts_cumul.resize(histo.get_cuts()->size());
@@ -126,8 +122,8 @@ Analyzer::Analyzer(string infile, string outfile) : goodParts(getArray()) {
   _Jet = new Jet(BOOM, FILESPACE + "Jet_info.in");
 
   create_fillInfo();
-
   setCutNeeds();
+
   std::cout << "setup complete" << std::endl << endl;
 }
 

@@ -41,6 +41,7 @@ class Histogramer {
   void addVal(double, string, int, string, double);
   void addVal(double, double, string, int, string, double);
   void fill_histogram();
+  void setControlRegions();
 
  private:
   TFile * outfile;

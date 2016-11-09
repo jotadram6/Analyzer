@@ -114,10 +114,12 @@ public:
   void Add_Hist(string, string, int, double, double, int);
   void Add_Hist(string, string, int, double, double, int, double, double, int);
   void write_histogram(TFile*, vector<string>&);
-
+  void setControlRegions() {CR = true;}
+  
 private:
   unordered_map<string, DataPiece*> datamap;
   vector<string> order;
+  bool CR = false;
 };
 
 #endif

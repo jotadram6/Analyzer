@@ -224,5 +224,9 @@ void Histogramer::addVal(double valuex, double valuey, string group, int maxcut,
   data[group]->AddPoint(histn, maxFolder, valuex, valuey, weight);
 }
 
-
+void Histogramer::setControlRegions() {
+  for(auto it: data) {
+    it.second->setControlRegions();
+  }
+}
     
