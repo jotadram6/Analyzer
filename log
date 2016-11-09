@@ -1,0 +1,802 @@
+g++ -Wall -O2 -pthread -std=c++11 -Wno-deprecated-declarations -m64 -I/cvmfs/cms.cern.ch/slc6_amd64_gcc530/cms/cmssw/CMSSW_8_0_10/external/slc6_amd64_gcc530/bin/../../../../../../lcg/root/6.06.00-ikhhed4/include -I./  -c src/Analyzer.cc -o obj/Analyzer.o 
+src/Analyzer.cc: In member function 'void Analyzer::clear_values()':
+src/Analyzer.cc:91:14: error: no match for 'operator[]' (operand types are 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' and 'int')
+     goodParts[i]->clear();
+              ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note: candidate: std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]
+       operator[](const key_type& __k)
+       ^
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   no known conversion for argument 1 from 'int' to 'const key_type& {aka const CUTS&}'
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note: candidate: std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]
+       operator[](key_type&& __k)
+       ^
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   no known conversion for argument 1 from 'int' to 'std::unordered_map<CUTS, std::vector<int>*, EnumHash>::key_type&& {aka CUTS&&}'
+src/Analyzer.cc: In member function 'void Analyzer::preprocess(int)':
+src/Analyzer.cc:132:27: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   goodParts[CUTS::eRVertex]->resize(bestVertices);
+                           ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:151:39: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   leadIndex = goodParts[CUTS::eR1stJet]->at(0); 
+                                       ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:166:30: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   if(goodParts[CUTS::eR1stJet]->at(0) != -1 && goodParts[CUTS::eR2ndJet]->at(0) != -1) VBFTopologyCut();
+                              ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:166:72: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   if(goodParts[CUTS::eR1stJet]->at(0) != -1 && goodParts[CUTS::eR2ndJet]->at(0) != -1) VBFTopologyCut();
+                                                                        ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc: In member function 'void Analyzer::fillCuts()':
+src/Analyzer.cc:216:40: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     nparticles = goodParts[cut_num[cut]]->size();
+                                        ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:218:102: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       if((cut_num[cut] == CUTS::eR1stJet || cut_num[cut] == CUTS::eR2ndJet) && goodParts[cut_num[cut]]->at(0) == -1 ) {
+                                                                                                      ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc: In member function 'void Analyzer::updateMet()':
+src/Analyzer.cc:293:44: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter it=goodParts[CUTS::eRMuon1]->begin(); it!=goodParts[CUTS::eRMuon1]->end(); it++) {
+                                            ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:293:83: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter it=goodParts[CUTS::eRMuon1]->begin(); it!=goodParts[CUTS::eRMuon1]->end(); it++) {
+                                                                                   ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:294:38: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       if(find(goodParts[CUTS::eRMuon2]->begin(), goodParts[CUTS::eRMuon2]->end(), (*it)) != goodParts[CUTS::eRMuon2]->end() ) continue;
+                                      ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:294:73: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       if(find(goodParts[CUTS::eRMuon2]->begin(), goodParts[CUTS::eRMuon2]->end(), (*it)) != goodParts[CUTS::eRMuon2]->end() ) continue;
+                                                                         ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:294:116: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       if(find(goodParts[CUTS::eRMuon2]->begin(), goodParts[CUTS::eRMuon2]->end(), (*it)) != goodParts[CUTS::eRMuon2]->end() ) continue;
+                                                                                                                    ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:298:44: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter it=goodParts[CUTS::eRMuon2]->begin(); it!=goodParts[CUTS::eRMuon2]->end(); it++) {
+                                            ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:298:83: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter it=goodParts[CUTS::eRMuon2]->begin(); it!=goodParts[CUTS::eRMuon2]->end(); it++) {
+                                                                                   ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:324:23: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   goodParts[CUTS::eMET]->push_back(1);
+                       ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc: In member function 'TLorentzVector Analyzer::matchLeptonToGen(const TLorentzVector&, const PartStats&, CUTS)':
+src/Analyzer.cc:504:33: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   for(vec_iter it=goodParts[ePos]->begin(); it !=goodParts[ePos]->end();it++) {
+                                 ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:504:64: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   for(vec_iter it=goodParts[ePos]->begin(); it !=goodParts[ePos]->end();it++) {
+                                                                ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc: In member function 'TLorentzVector Analyzer::matchTauToGen(const TLorentzVector&, double)':
+src/Analyzer.cc:522:40: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   for(vec_iter it=goodParts[CUTS::eGTau]->begin(); it !=goodParts[CUTS::eGTau]->end();it++, i++) {
+                                        ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:522:78: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   for(vec_iter it=goodParts[CUTS::eGTau]->begin(); it !=goodParts[CUTS::eGTau]->end();it++, i++) {
+                                                                              ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:523:36: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     int nu = goodParts[CUTS::eNuTau]->at(i);
+                                    ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc: In member function 'void Analyzer::getGoodGen(int, int, CUTS, const PartStats&)':
+src/Analyzer.cc:545:21: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       goodParts[ePos]->push_back(j);
+                     ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc: In member function 'void Analyzer::getGoodTauNu()':
+src/Analyzer.cc:552:40: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   for(vec_iter it=goodParts[CUTS::eGTau]->begin(); it !=goodParts[CUTS::eGTau]->end();it++) {
+                                        ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:552:78: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   for(vec_iter it=goodParts[CUTS::eGTau]->begin(); it !=goodParts[CUTS::eGTau]->end();it++) {
+                                                                              ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:562:27: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     goodParts[CUTS::eNuTau]->push_back(nu);
+                           ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc: In member function 'void Analyzer::getGoodRecoLeptons(const Lepton&, CUTS, CUTS, const PartStats&)':
+src/Analyzer.cc:582:134: error: no match for 'operator-' (operand types are 'const CUTS' and 'CUTS')
+       double firstIso = (stats.pmap.find("IsoSumPtCutValue") != stats.pmap.end()) ? stats.pmap.at("IsoSumPtCutValue").first : (ePos) - CUTS::eRTau1) + 1);
+                                                                                                                                      ^
+src/Analyzer.cc:627:19: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     goodParts[ePos]->push_back(i);    
+                   ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc: In member function 'void Analyzer::getGoodRecoJets(CUTS, const PartStats&)':
+src/Analyzer.cc:661:19: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     goodParts[ePos]->push_back(i);    
+                   ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:667:41: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter leadit = goodParts[ePos]->begin(); leadit != goodParts[ePos]->end(); ++leadit) {
+                                         ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:667:77: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter leadit = goodParts[ePos]->begin(); leadit != goodParts[ePos]->end(); ++leadit) {
+                                                                             ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:673:19: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     goodParts[ePos]->clear();
+                   ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:674:19: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     goodParts[ePos]->push_back(potential);
+                   ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc: In member function 'bool Analyzer::isOverlaping(const TLorentzVector&, Lepton&, CUTS, double)':
+src/Analyzer.cc:682:33: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   for(vec_iter it=goodParts[ePos]->begin(); it < goodParts[ePos]->end(); it++) {
+                                 ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:682:64: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   for(vec_iter it=goodParts[ePos]->begin(); it < goodParts[ePos]->end(); it++) {
+                                                                ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc: In member function 'void Analyzer::TriggerCuts(std::vector<int>&, const std::vector<std::basic_string<char> >&, CUTS)':
+src/Analyzer.cc:733:21: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       goodParts[ePos]->push_back(0);
+                     ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc: In member function 'void Analyzer::VBFTopologyCut()':
+src/Analyzer.cc:744:66: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   TLorentzVector ljet1 = _Jet->smearP.at(goodParts[CUTS::eR1stJet]->at(0));
+                                                                  ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:745:66: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   TLorentzVector ljet2 = _Jet->smearP.at(goodParts[CUTS::eR2ndJet]->at(0));
+                                                                  ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:777:27: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   goodParts[CUTS::eSusyCom]->push_back(0);
+                           ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc: In member function 'void Analyzer::getGoodMetTopologyLepton(const Lepton&, CUTS, CUTS, const PartStats&)':
+src/Analyzer.cc:787:34: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   for(vec_iter it=goodParts[eReco]->begin(); it != goodParts[eReco]->end(); it++) {
+                                  ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:787:67: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   for(vec_iter it=goodParts[eReco]->begin(); it != goodParts[eReco]->end(); it++) {
+                                                                   ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:794:19: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     goodParts[ePos]->push_back(*it);
+                   ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc: In member function 'void Analyzer::getGoodLeptonCombos(Lepton&, Lepton&, CUTS, CUTS, CUTS, const PartStats&)':
+src/Analyzer.cc:868:34: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   for(vec_iter i1=goodParts[ePos1]->begin(); i1 != goodParts[ePos1]->end(); i1++) {
+                                  ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:868:67: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   for(vec_iter i1=goodParts[ePos1]->begin(); i1 != goodParts[ePos1]->end(); i1++) {
+                                                                   ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:869:36: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter i2=goodParts[ePos2]->begin(); i2 != goodParts[ePos2]->end(); i2++) {
+                                    ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:869:69: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter i2=goodParts[ePos2]->begin(); i2 != goodParts[ePos2]->end(); i2++) {
+                                                                     ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:915:24: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       goodParts[ePosFin]->push_back((*i1)*BIG_NUM + (*i2));
+                        ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc: In member function 'void Analyzer::getGoodDiJets(const PartStats&)':
+src/Analyzer.cc:929:42: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   for(vec_iter ij2=goodParts[CUTS::eRJet2]->begin(); ij2 != goodParts[CUTS::eRJet2]->end(); ij2++) {
+                                          ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:929:83: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   for(vec_iter ij2=goodParts[CUTS::eRJet2]->begin(); ij2 != goodParts[CUTS::eRJet2]->end(); ij2++) {
+                                                                                   ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:931:44: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter ij1=goodParts[CUTS::eRJet1]->begin(); ij1 != goodParts[CUTS::eRJet1]->end() && (*ij1) < (*ij2); ij1++) {
+                                            ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:931:85: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter ij1=goodParts[CUTS::eRJet1]->begin(); ij1 != goodParts[CUTS::eRJet1]->end() && (*ij1) < (*ij2); ij1++) {
+                                                                                     ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:954:29: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       goodParts[CUTS::eDiJet]->push_back((*ij1)*_Jet->smearP.size() + (*ij2));
+                             ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc: In member function 'void Analyzer::fill_Folder(std::string, int)':
+src/Analyzer.cc:1040:42: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter it=goodParts[CUTS::eGTau]->begin(); it!=goodParts[CUTS::eGTau]->end(); it++, i++) {
+                                          ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1040:79: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter it=goodParts[CUTS::eGTau]->begin(); it!=goodParts[CUTS::eGTau]->end(); it++, i++) {
+                                                                               ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1042:38: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       int nu = goodParts[CUTS::eNuTau]->at(i);
+                                      ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1057:56: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       for(vec_iter it2=it+1; it2!=goodParts[CUTS::eGTau]->end(); it2++) {
+                                                        ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1065:37: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     histAddVal(goodParts[CUTS::eGTau]->size(), "NTau");
+                                     ^
+src/Analyzer.cc:6:44: note: in definition of macro 'histAddVal'
+ #define histAddVal(val, name) histo.addVal(val, group, max, name, wgt)
+                                            ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1068:43: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter it=goodParts[CUTS::eGMuon]->begin(); it!=goodParts[CUTS::eGMuon]->end(); it++) {
+                                           ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1068:81: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter it=goodParts[CUTS::eGMuon]->begin(); it!=goodParts[CUTS::eGMuon]->end(); it++) {
+                                                                                 ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1074:38: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     histAddVal(goodParts[CUTS::eGMuon]->size(), "NMuon");
+                                      ^
+src/Analyzer.cc:6:44: note: in definition of macro 'histAddVal'
+ #define histAddVal(val, name) histo.addVal(val, group, max, name, wgt)
+                                            ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1086:35: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter it=goodParts[ePos]->begin(); it!=goodParts[ePos]->end(); it++) {
+                                   ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:1086:65: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter it=goodParts[ePos]->begin(); it!=goodParts[ePos]->end(); it++) {
+                                                                 ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:1102:173: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     if((ePos == CUTS::eRMuon1 || ePos == CUTS::eRMuon2 || ePos == CUTS::eRTau1 || ePos == CUTS::eRTau2 || ePos == CUTS::eRElec1 || ePos == CUTS::eRElec2 ) && goodParts[ePos]->size() > 0) {
+                                                                                                                                                                             ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:1105:37: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       for(vec_iter it=goodParts[ePos]->begin(); it!=goodParts[ePos]->end(); it++) {
+                                     ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:1105:67: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       for(vec_iter it=goodParts[ePos]->begin(); it!=goodParts[ePos]->end(); it++) {
+                                                                   ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:1116:30: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     histAddVal(goodParts[ePos]->size(), "N");
+                              ^
+src/Analyzer.cc:6:44: note: in definition of macro 'histAddVal'
+ #define histAddVal(val, name) histo.addVal(val, group, max, name, wgt)
+                                            ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:1125:32: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     if(goodParts[CUTS::eR1stJet]->at(0) !=-1 && goodParts[CUTS::eR2ndJet]->at(0) != -1) {
+                                ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1125:73: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     if(goodParts[CUTS::eR1stJet]->at(0) !=-1 && goodParts[CUTS::eR2ndJet]->at(0) != -1) {
+                                                                         ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1126:70: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       TLorentzVector DiJet = _Jet->smearP.at(goodParts[CUTS::eR1stJet]->at(0)) + _Jet->smearP.at(goodParts[CUTS::eR2ndJet]->at(0));
+                                                                      ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1126:122: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       TLorentzVector DiJet = _Jet->smearP.at(goodParts[CUTS::eR1stJet]->at(0)) + _Jet->smearP.at(goodParts[CUTS::eR2ndJet]->at(0));
+                                                                                                                          ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1130:66: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   } else if(group == "FillLeadingJet" && goodParts[CUTS::eSusyCom]->size() == 0) {
+                                                                  ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1133:32: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     if(goodParts[CUTS::eR1stJet]->at(0) != -1) {
+                                ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1134:53: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       pt1 = _Jet->smearP.at(goodParts[CUTS::eR1stJet]->at(0)).Pt();
+                                                     ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1135:54: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       eta1 = _Jet->smearP.at(goodParts[CUTS::eR1stJet]->at(0)).Eta();
+                                                      ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1137:32: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     if(goodParts[CUTS::eR2ndJet]->at(0) != -1) {
+                                ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1138:53: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       pt2 = _Jet->smearP.at(goodParts[CUTS::eR2ndJet]->at(0)).Pt();
+                                                     ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1139:54: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       eta2 = _Jet->smearP.at(goodParts[CUTS::eR2ndJet]->at(0)).Eta();
+                                                      ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1147:66: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+   } else if(group == "FillLeadingJet" && goodParts[CUTS::eSusyCom]->size() != 0) {
+                                                                  ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1148:68: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     TLorentzVector first = _Jet->smearP.at(goodParts[CUTS::eR1stJet]->at(0));
+                                                                    ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1149:69: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     TLorentzVector second = _Jet->smearP.at(goodParts[CUTS::eR2ndJet]->at(0));
+                                                                     ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1190:43: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter it=goodParts[CUTS::eDiJet]->begin(); it!=goodParts[CUTS::eDiJet]->end(); it++) {
+                                           ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1190:81: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter it=goodParts[CUTS::eDiJet]->begin(); it!=goodParts[CUTS::eDiJet]->end(); it++) {
+                                                                                 ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1242:35: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter it=goodParts[ePos]->begin(); it!=goodParts[ePos]->end(); it++) {
+                                   ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:1242:65: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+     for(vec_iter it=goodParts[ePos]->begin(); it!=goodParts[ePos]->end(); it++) {
+                                                                 ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:667:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](const key_type& __k)
+       ^
+src/Analyzer.cc:1282:36: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       if ((goodParts[CUTS::eR1stJet]->at(0) != -1) && (goodParts[CUTS::eR2ndJet]->at(0) != -1)) {
+                                    ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1282:80: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+       if ((goodParts[CUTS::eR1stJet]->at(0) != -1) && (goodParts[CUTS::eR2ndJet]->at(0) != -1)) {
+                                                                                ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1283:76: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+  TLorentzVector TheLeadDiJetVect = _Jet->smearP.at(goodParts[CUTS::eR1stJet]->at(0)) + _Jet->smearP.at(goodParts[CUTS::eR2ndJet]->at(0));
+                                                                            ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+src/Analyzer.cc:1283:128: error: passing 'const std::unordered_map<CUTS, std::vector<int>*, EnumHash>' as 'this' argument discards qualifiers [-fpermissive]
+  TLorentzVector TheLeadDiJetVect = _Jet->smearP.at(goodParts[CUTS::eR1stJet]->at(0)) + _Jet->smearP.at(goodParts[CUTS::eR2ndJet]->at(0));
+                                                                                                                                ^
+In file included from /cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/unordered_map:48:0,
+                 from src/Analyzer.h:18,
+                 from src/Analyzer.cc:1:
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/gcc/5.3.0/include/c++/5.3.0/bits/unordered_map.h:671:7: note:   in call to 'std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = CUTS; _Tp = std::vector<int>*; _Hash = EnumHash; _Pred = std::equal_to<CUTS>; _Alloc = std::allocator<std::pair<const CUTS, std::vector<int>*> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = std::vector<int>*; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = CUTS]'
+       operator[](key_type&& __k)
+       ^
+Makefile:32: recipe for target 'obj/Analyzer.o' failed
+make: *** [obj/Analyzer.o] Error 1
