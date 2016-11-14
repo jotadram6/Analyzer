@@ -2,10 +2,10 @@ ROOTCFLAGS = $(shell root-config --cflags)
 ROOTLIBS = $(shell root-config --libs)
 
 CXX = g++
-CXXFLAGS += -Wall -O2 $(ROOTCFLAGS) -I./ 
+CXXFLAGS += -Wall $(ROOTCFLAGS) -I./ -g
 
 LD = g++
-LDFLAGS += -Wall -O2 $(ROOTLIBS) -lGenVector
+LDFLAGS += -Wall $(ROOTLIBS) -lGenVector -g
 
 LIBS=
 

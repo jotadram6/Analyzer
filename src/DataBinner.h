@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <iostream>
+#include <cassert>
 #include <TH1.h>
 #include <TH2.h>
 #include <TFile.h>

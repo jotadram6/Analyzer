@@ -34,7 +34,7 @@ static const int nTrigReq = 2;
 class Analyzer {
 
  public:
-  Analyzer(string, string);
+  Analyzer(string, string, bool setCR = false);
   ~Analyzer();
   void clear_values();
   void preprocess(int);
@@ -43,11 +43,14 @@ class Analyzer {
   void writeout();
   int nentries;
   void fill_histogram();
+  void setControlRegions() { histo.setControlRegions();}
+
 
  private:
   
+  void CRfillCuts();
   ///// Functions /////
-  void fill_Folder(string, int);
+  void fill_Folder(string, const int);
 
   void getInputs();
   void setupJob(string);
@@ -97,6 +100,8 @@ class Analyzer {
   double getPileupWeight(float);
   unordered_map<CUTS, vector<int>*, EnumHash> getArray();
 
+  double getCRVal(string);
+
 
   ///// values /////
 
@@ -125,6 +130,7 @@ class Analyzer {
 
 
   vector<int>* trigPlace[nTrigReq];
+  bool setTrigger = false;
   vector<string>* trigName[nTrigReq];
 
   vector<int> cuts_per, cuts_cumul;
@@ -148,7 +154,7 @@ class Analyzer {
   double pu_weight, wgt;
 
 
-
+  unordered_map<string, int> crValMap = { {"DeltaR", 1}};
 
 
 

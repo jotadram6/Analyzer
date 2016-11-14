@@ -84,6 +84,7 @@ DataBinner::DataBinner(){}
 
 DataBinner::DataBinner(const DataBinner& rhs) {
   order = rhs.order;
+  CR = rhs.CR;
 
   for(unordered_map<string, DataPiece*>::const_iterator it = rhs.datamap.begin(); it!=rhs.datamap.end(); it++) {
     if(dynamic_cast<Piece1D*>(it->second) != NULL) {
@@ -117,6 +118,11 @@ void DataBinner::Add_Hist(string shortname, string fullname, int binx, double le
 void DataBinner::AddPoint(string name, int maxfolder, double value, double weight) {
   if(datamap.find(name) == datamap.end())  return;
 
+  if(CR) {
+    datamap[name]->bin(maxfolder,value, weight);
+    return;
+  }
+
   for(int i=0; i < maxfolder; i++) {
     datamap[name]->bin(i,value, weight);
   }
@@ -124,6 +130,11 @@ void DataBinner::AddPoint(string name, int maxfolder, double value, double weigh
 
 void DataBinner::AddPoint(string name, int maxfolder, double valuex, double valuey, double weight) {
   if(datamap.find(name) == datamap.end()) return;
+
+  if(CR) {
+    datamap[name]->bin(maxfolder,valuex, valuey, weight);
+    return;
+  }
 
   for(int i=0; i < maxfolder; i++) {
     datamap[name]->bin(i,valuex, valuey, weight);

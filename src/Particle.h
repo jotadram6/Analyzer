@@ -37,12 +37,15 @@ class Particle {
   Particle(TTree*, string, string);
   virtual ~Particle() {};
   void getPartStats(string);
+  void unBranch();
 
   vector<double>* pt = 0;
   vector<double>* eta = 0;
   vector<double>* phi = 0;
   vector<double>* energy = 0;
 
+  TTree* BOOM;
+  string GenName;
   PType type;
   unordered_map<string, PartStats> pstats;
   vector<TLorentzVector> smearP;
@@ -106,6 +109,8 @@ public:
    vector<double>  *isoPhotons = 0;
    vector<double>  *isoPU = 0;
 };
+
+
 
 class Muon : public Lepton {
 

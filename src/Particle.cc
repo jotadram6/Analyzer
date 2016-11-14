@@ -2,7 +2,7 @@
 
 #define SetBranch(name, variable) BOOM->SetBranchStatus(name, 1);  BOOM->SetBranchAddress(name, &variable);
 
-Particle::Particle(TTree* BOOM, string GenName, string filename) {
+Particle::Particle(TTree* _BOOM, string _GenName, string filename) : BOOM(_BOOM), GenName(_GenName) {
   type = PType::None;
   getPartStats(filename);
 
@@ -13,16 +13,19 @@ Particle::Particle(TTree* BOOM, string GenName, string filename) {
 
 }
 
-Generated::Generated(TTree* BOOM, string filename) : Particle(BOOM, "Gen", filename) {
+void Particle::unBranch() {
+  BOOM->SetBranchStatus((GenName+"*").c_str(), 0);
+}
+
+Generated::Generated(TTree* _BOOM, string filename) : Particle(_BOOM, "Gen", filename) {
+
   SetBranch("Gen_pdg_id", pdg_id);
   SetBranch("Gen_motherpdg_id", motherpdg_id);
   SetBranch("Gen_status", status);
   SetBranch("Gen_BmotherIndex", BmotherIndex);
 }
 
-
-
-Jet::Jet(TTree* BOOM, string filename) : Particle(BOOM, "Jet", filename) {
+Jet::Jet(TTree* _BOOM, string filename) : Particle(_BOOM, "Jet", filename) {
   type = PType::Jet;
   SetBranch("Jet_neutralHadEnergyFraction", neutralHadEnergyFraction);
   SetBranch("Jet_neutralEmEmEnergyFraction", neutralEmEmEnergyFraction);
@@ -35,13 +38,11 @@ Jet::Jet(TTree* BOOM, string filename) : Particle(BOOM, "Jet", filename) {
   SetBranch("Jet_bDiscriminator_pfCISVV2", bDiscriminator);
 }
     
-//template <typename T>
-Lepton::Lepton(TTree* BOOM, string GenName, string EndName) : Particle(BOOM, GenName, EndName) {
+Lepton::Lepton(TTree* _BOOM, string GenName, string EndName) : Particle(_BOOM, GenName, EndName) {
   SetBranch((GenName+"_charge").c_str(), charge);
 }
 
-
-Electron::Electron(TTree* BOOM, string filename) : Lepton(BOOM, "patElectron", filename) {
+Electron::Electron(TTree* _BOOM, string filename) : Lepton(_BOOM, "patElectron", filename) {
   type = PType::Electron;
   if(pstats["Elec1"].bmap["DoDiscrByIsolation"] || pstats["Elec2"].bmap["DoDiscrByIsolation"]) {  
     SetBranch("patElectron_isoChargedHadrons", isoChargedHadrons);
@@ -66,8 +67,7 @@ Electron::Electron(TTree* BOOM, string filename) : Lepton(BOOM, "patElectron", f
   }
 }
 
-
-Muon::Muon(TTree* BOOM, string filename) : Lepton(BOOM, "Muon", filename) {
+Muon::Muon(TTree* _BOOM, string filename) : Lepton(_BOOM, "Muon", filename) {
   type = PType::Muon;
 
   if(pstats["Muon1"].bmap["DoDiscrByTightID"] || pstats["Muon2"].bmap["DoDiscrByTightID"]) {
@@ -84,9 +84,8 @@ Muon::Muon(TTree* BOOM, string filename) : Lepton(BOOM, "Muon", filename) {
   }
 }
 
-
 ///////fix against stuff
-Taus::Taus(TTree* BOOM, string filename) : Lepton(BOOM, "Tau", filename) {
+Taus::Taus(TTree* _BOOM, string filename) : Lepton(_BOOM, "Tau", filename) {
   type = PType::Tau;
 
   ////Electron discrimination
@@ -151,15 +150,6 @@ Taus::Taus(TTree* BOOM, string filename) : Lepton(BOOM, "Tau", filename) {
   SetBranch("Tau_nProngs", nProngs);
   SetBranch("Tau_leadChargedCandPt", leadChargedCandPt);
 
-  
-  //////NOT USED BRANCHES/////
-  //  SetBranchStatus("Tau_decayModeFinding", 1);
-  //  SetBranch("Tau_leadChargedCandCharge", &leadChargedCandCharge);
-  //  SetBranch("Tau_leadChargedCandEta", &leadChargedCandEta);
-  //  SetBranch("Tau_leadChargedCandPhi", &leadChargedCandPhi);
-  //  SetBranch("Tau_chargedIsoPtSum", &chargedIsoPtSum);
-  //  SetBranch("Tau_neutralIsoPtSum", &neutralIsoPtSum);  
-  //  SetBranch("Tau_puCorrPtSum", &puCorrPtSum);
 }
 
 void Particle::getPartStats(string filename) {

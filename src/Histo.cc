@@ -3,14 +3,28 @@
 Histogramer::Histogramer() {
 }
 
-Histogramer::Histogramer(int _Npdf, string histname, string cutname, string outfilename, bool _isData): outname(outfilename), Npdf(_Npdf), isData(_isData) {
-  outfile = NULL;
-  read_cuts(cutname);
-  NFolders = folders.size();
+// Histogramer::Histogramer(int _Npdf, string histname, string cutname, string outfilename, bool _isData): outname(outfilename), Npdf(_Npdf), isData(_isData) {
+//   outfile = NULL;
+//   read_cuts(cutname);
+//   NFolders = folders.size();
 
+//   read_hist(histname);
+
+// }
+
+Histogramer::Histogramer(int _Npdf, string histname, string cutname, string outfilename, bool _isData, vector<string>& folderCuts): 
+    outname(outfilename), Npdf(_Npdf), isData(_isData) {
+  outfile = NULL;
+  read_cuts(cutname, folderCuts);
+  NFolders = folders.size();
   read_hist(histname);
 
+  if(folderCuts.size() != 0) {
+    CR = true;
+    for(auto it: data) it.second->setControlRegions();
+  }
 }
+
 
 Histogramer& Histogramer::operator=(const Histogramer& rhs) {
   if(this == &rhs) return *this;
@@ -25,6 +39,7 @@ Histogramer& Histogramer::operator=(const Histogramer& rhs) {
   folder_num = rhs.folder_num;
   data_order.reserve(rhs.data_order.size());
   data_order = rhs.data_order;
+  CR = rhs.CR;
 
   for(unordered_map<string, DataBinner*>::const_iterator mit = rhs.data.begin(); mit != rhs.data.end(); mit++) {
     data[mit->first] = new DataBinner(*(mit->second));
@@ -42,6 +57,8 @@ Histogramer::Histogramer(const Histogramer& rhs) {
   folders = rhs.folders;
   folder_num = rhs.folder_num;
   data_order = rhs.data_order;  
+  CR = rhs.CR;
+
   for(unordered_map<string, DataBinner*>::const_iterator mit = rhs.data.begin(); mit != rhs.data.end(); mit++) {
     data[mit->first] = new DataBinner(*(mit->second));
   }
@@ -129,7 +146,7 @@ void Histogramer::setupSVFit(string group, string name,  double bins, double min
 }
 
 
-void Histogramer::read_cuts(string filename) {
+void Histogramer::read_cuts(string filename, vector<string>& folderCuts) {
   typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
   ifstream info_file(filename);
   boost::char_separator<char> sep(", \t");  
@@ -154,7 +171,7 @@ void Histogramer::read_cuts(string filename) {
 
     if(stemp.size() == 3) {
       name = stemp[0];
-      if(name[0]=='*' && name[1]=='*' && name[2]=='*') {
+      if(name[0]=='*' && name[1]=='*' && name[2]=='*' && folderCuts.size() == 0) {
 	name.erase(0,3);
 	folders.push_back(name);
 	folder_num.push_back(i);
@@ -164,17 +181,37 @@ void Histogramer::read_cuts(string filename) {
       i++;
     }
   }
-
-  if(folders.size() == 0 && cut_order.size() == 0){
+  
+  if(folderCuts.size() != 0) {
+    fillFolder("", 0, true, folderCuts);
+  } else if(folders.size() == 0 && cut_order.size() == 0){
     folders.push_back(name);
     folder_num.push_back(i-1);
   } else if(cut_order.size() != 0 && ( folders.size() == 0 || folders.back() != cut_order.back())) {
     folders.push_back(cut_order.back());
     folder_num.push_back(cut_order.size() -1);
   }
+  for(auto names: folders) {
+    cout << names << endl;
+  }
 
   info_file.close(); 
- }
+}
+
+
+void Histogramer::fillFolder(string sofar, int index, bool isFirst, const vector<string>& variables) {
+  if(index >= (int)variables.size()) {
+    folders.push_back(sofar); 
+    return;
+  }
+  if(isFirst) {
+    fillFolder(sofar+variables[index]+"<"+variables[index+1]+"_", index+2, true, variables);
+    fillFolder(sofar, index, false, variables);
+  } else {
+    fillFolder(sofar+variables[index]+">"+variables[index+1]+"_", index+2, true, variables);
+  }
+}
+
 
 void Histogramer::fill_histogram() {
 
@@ -206,9 +243,12 @@ vector<string>* Histogramer::get_groups() {
 void Histogramer::addVal(double value, string group, int maxcut, string histn, double weight) {
   int maxFolder=0;
 
-  for(int i = 0; i < NFolders; i++) {
-    if(maxcut > folder_num[i]) maxFolder++;
-    else break;
+  if(CR) maxFolder = maxcut;
+  else {
+    for(int i = 0; i < NFolders; i++) {
+      if(maxcut > folder_num[i]) maxFolder++;
+      else break;
+    }
   }
 
   data[group]->AddPoint(histn, maxFolder, value, weight);
@@ -217,16 +257,15 @@ void Histogramer::addVal(double value, string group, int maxcut, string histn, d
 void Histogramer::addVal(double valuex, double valuey, string group, int maxcut, string histn, double weight) {
   int maxFolder=0;
 
-  for(int i = 0; i < NFolders; i++) {
-    if(maxcut > folder_num[i]) maxFolder++;
-    else break;
+  if(CR) maxFolder = maxcut;
+  else {
+    for(int i = 0; i < NFolders; i++) {
+      if(maxcut > folder_num[i]) maxFolder++;
+      else break;
+    }
   }
+
   data[group]->AddPoint(histn, maxFolder, valuex, valuey, weight);
 }
 
-void Histogramer::setControlRegions() {
-  for(auto it: data) {
-    it.second->setControlRegions();
-  }
-}
     
