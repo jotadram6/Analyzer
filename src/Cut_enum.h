@@ -53,7 +53,6 @@ enum class CUTS {
   eGTau,        eGTop,        eGElec,       eGMuon,       eGZ,        eGW,       eGHiggs, 
   eRVertex,     eRMuon1,      eRMuon2,      eRElec1,      eRElec2,    eRTau1,   eRTau2, 
   eRJet1,       eRJet2,       eRCenJet,     eR1stJet,     eR2ndJet,   eRBJet,  
-  eTMuon1,      eTMuon2,      eTElec1,      eTElec2,      eTTau1,     eTTau2, 
   eDiElec,      eDiMuon,      eDiTau,       eDiJet,   
   eMuon1Tau1,   eMuon1Tau2,   eMuon2Tau1,   eMuon2Tau2, 
   eElec1Tau1,   eElec1Tau2,   eElec2Tau1,   eElec2Tau2, 
@@ -61,22 +60,6 @@ enum class CUTS {
   eSusyCom,     eMET,         eNuTau,       eRTrig1,      eRTrig2,
     First = eGTau,
     Last = eRTrig2};
-
-
-enum class FILLER { Single, Dipart, None };
-
-struct FillVals {
-  CUTS ePos;
-  FILLER type;
-  Particle* part = NULL;
-  Particle* part2 = NULL;
-
-  FillVals(): type(FILLER::None) {}
-  FillVals(CUTS _ePos): ePos(_ePos), type(FILLER::None) {}
-  FillVals(CUTS _ePos, FILLER _type, Particle* _part, Particle* _part2=NULL) : 
-     ePos(_ePos), type(_type), part(_part), part2(_part2) { }
-
-};
 
 
 #endif

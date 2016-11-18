@@ -1,7 +1,7 @@
 #ifndef Analyzer_h
 #define Analyzer_h
 
-
+struct CRTester;
 
 // system include files
 #include <memory>
@@ -25,6 +25,10 @@
 #include "Particle.h"
 #include "Histo.h"
 #include "Cut_enum.h"
+#include "FillInfo.h"
+
+double normPhi(double phi);
+double absnormPhi(double phi);
 
 //#define const
 using namespace std;
@@ -44,6 +48,11 @@ class Analyzer {
   int nentries;
   void fill_histogram();
   void setControlRegions() { histo.setControlRegions();}
+
+  vector<int>* getList(CUTS ePos) {return goodParts[ePos];}
+  double getMet() {return theMETVector.Pt();}
+  double getHT() {return sumptForHt;}
+  double getMHT() {return sqrt((sumpxForMht * sumpxForMht) + (sumpyForMht * sumpyForMht));}
 
 
  private:
@@ -93,15 +102,13 @@ class Analyzer {
   void create_fillInfo();
 
   inline bool passCutRange(string, double, const PartStats&);  
-  double normPhi(double);
-  double absnormPhi(double);
 
   void updateMet();
   double getPileupWeight(float);
   unordered_map<CUTS, vector<int>*, EnumHash> getArray();
 
   double getCRVal(string);
-
+  void setupCR(string, double);
 
   ///// values /////
 
@@ -154,10 +161,21 @@ class Analyzer {
   double pu_weight, wgt;
 
 
-  unordered_map<string, int> crValMap = { {"DeltaR", 1}};
-
-
+  vector<CRTester*> testVec;
+  
+  vector<CUTS> genCuts = {CUTS::eGTau, CUTS::eGTop, CUTS::eGElec, CUTS::eGMuon, CUTS::eGZ, CUTS::eGW, CUTS::eGHiggs};   
 
 };
+
+struct CRTester {
+    
+  const FillVals* info;
+  const string variable;
+  const double cutVal;
+
+  CRTester(FillVals* _info, string var, double val) : info(_info), variable(var), cutVal(val) {}
+  bool test(Analyzer* analyzer);
+};
+
 
 #endif

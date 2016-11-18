@@ -20,6 +20,7 @@ Histogramer::Histogramer(int _Npdf, string histname, string cutname, string outf
   read_hist(histname);
 
   if(folderCuts.size() != 0) {
+    cout << "not zero" << endl;
     CR = true;
     for(auto it: data) it.second->setControlRegions();
   }

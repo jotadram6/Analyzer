@@ -1,3 +1,4 @@
+
 #include "Analyzer.h"
 //// Used to convert Enums to integers
 #define ival(x) static_cast<int>(x)
@@ -44,14 +45,9 @@ const unordered_map<CUTS, vector<CUTS>, EnumHash> Analyzer::adjList = {
   {CUTS::eDiTau, {CUTS::eRTau1, CUTS::eRTau2}},
   {CUTS::eDiJet, {CUTS::eRJet1, CUTS::eRJet2}},
   {CUTS::eSusyCom, {CUTS::eR1stJet, CUTS::eR2ndJet}},
-
-  {CUTS::eTMuon1, {CUTS::eRMuon1}},
-  {CUTS::eTMuon2, {CUTS::eRMuon2}},
-  {CUTS::eTElec1, {CUTS::eRElec1}},
-  {CUTS::eTElec2, {CUTS::eRElec2}},
-  {CUTS::eTTau1, {CUTS::eRTau1}},
-  {CUTS::eTTau1, {CUTS::eRTau1}}
+  {CUTS::eGTau, {CUTS::eNuTau}}
 };
+
 
 const unordered_map<string, CUTS> Analyzer::cut_num = { 
   {"NGenTau", CUTS::eGTau},                             {"NGenTop", CUTS::eGTop}, 
@@ -65,9 +61,6 @@ const unordered_map<string, CUTS> Analyzer::cut_num = {
   {"NRecoCentralJet", CUTS::eRCenJet},                  {"NRecoBJet", CUTS::eRBJet}, 
   {"NRecoTriggers1", CUTS::eRTrig1},                    {"NRecoTriggers2", CUTS::eRTrig2}, 
   {"NRecoFirstLeadingJet", CUTS::eR1stJet},             {"NRecoSecondLeadingJet", CUTS::eR2ndJet},
-  {"NRecoMuon1MetTopology", CUTS::eTMuon1},             {"NRecoMuon2MetTopology", CUTS::eTMuon2}, 
-  {"NRecoElectron1MetTopology", CUTS::eTElec1},         {"NRecoElectron2MetTopology", CUTS::eTElec2}, 
-  {"NRecoTau1MetTopology", CUTS::eTTau1},               {"NRecoTau2MetTopology", CUTS::eTTau2}, 
   {"NDiMuonCombinations", CUTS::eDiMuon},               {"NDiElectronCombinations", CUTS::eDiElec}, 
   {"NDiTauCombinations", CUTS::eDiTau},                 {"NDiJetCombinations", CUTS::eDiJet},
   {"NMuon1Tau1Combinations", CUTS::eMuon1Tau1},         {"NMuon1Tau2Combinations", CUTS::eMuon1Tau2}, 
@@ -78,6 +71,7 @@ const unordered_map<string, CUTS> Analyzer::cut_num = {
   {"NMuon2Electron1Combinations", CUTS::eMuon2Elec1},   {"NMuon2Electron2Combinations", CUTS::eMuon2Elec2},
   {"NSusyCombinations", CUTS::eSusyCom},                {"METCut", CUTS::eMET} 
 };
+
 
 //////////////////////////////////////////////////////
 //////////////////PUBLIC FUNCTIONS////////////////////
@@ -104,24 +98,8 @@ Analyzer::Analyzer(string infile, string outfile, bool setCR) : goodParts(getArr
 
   isData = distats["Run"].bmap.at("isData");
   CalculatePUSystematics = distats["Run"].bmap.at("CalculatePUSystematics");
-
-  vector<string> cr_variables;
-  if(setCR) {
-    char buf[64];
-    read_info(FILESPACE + "Control_Regions.in");
-    for(auto maper: distats["Control_Region"].dmap) {
-      cr_variables.push_back(maper.first);
-      sprintf(buf, "%.*G", 16, maper.second);
-      cr_variables.push_back(buf);
-    }
-  }
-
-  histo = Histogramer(1, FILESPACE+"Hist_entries.in", FILESPACE+"Cuts.in", outfile, isData, cr_variables);
-  
   initializePileupInfo(distats["Run"].smap.at("MCHistos"), distats["Run"].smap.at("DataHistos"));
 
-  cuts_per.resize(histo.get_cuts()->size());
-  cuts_cumul.resize(histo.get_cuts()->size());
 
   if(!isData) {
     _Gen = new Generated(BOOM, FILESPACE + "Gen_info.in");
@@ -133,10 +111,31 @@ Analyzer::Analyzer(string infile, string outfile, bool setCR) : goodParts(getArr
   _Tau = new Taus(BOOM, FILESPACE + "Tau_info.in");
   _Jet = new Jet(BOOM, FILESPACE + "Jet_info.in");
 
+  _Electron->findExtraCuts();
+  _Muon->findExtraCuts();
+  _Tau->findExtraCuts();
+  _Jet->findExtraCuts();
+
   create_fillInfo();
-  setCutNeeds();
 
+  vector<string> cr_variables;
+  if(setCR) {
+    char buf[64];
+    read_info(FILESPACE + "Control_Regions.in");
+    for(auto maper: distats["Control_Region"].dmap) {
+      cr_variables.push_back(maper.first);
+      sprintf(buf, "%.*G", 16, maper.second);
+      cr_variables.push_back(buf);
+      setupCR(maper.first, maper.second);
+    }
+  }
 
+  histo = Histogramer(1, FILESPACE+"Hist_entries.in", FILESPACE+"Cuts.in", outfile, isData, cr_variables);
+
+  cuts_per.resize(histo.get_cuts()->size());
+  cuts_cumul.resize(histo.get_cuts()->size());
+
+  setCutNeeds();  
   std::cout << "setup complete" << std::endl << endl;
 }
 
@@ -152,8 +151,9 @@ unordered_map<CUTS, vector<int>*, EnumHash> Analyzer::getArray() {
 
 void Analyzer::create_fillInfo() {
 
-  fillInfo["FillTauJet1"] =    new FillVals(CUTS::eRTau1, FILLER::Single, _Tau);
-  fillInfo["FillTauJet2"] =    new FillVals(CUTS::eRTau2, FILLER::Single, _Tau);
+  fillInfo["FillRun"] =    new FillVals();
+  fillInfo["FillTau1"] =    new FillVals(CUTS::eRTau1, FILLER::Single, _Tau);
+  fillInfo["FillTau2"] =    new FillVals(CUTS::eRTau2, FILLER::Single, _Tau);
   fillInfo["FillMuon1"] =      new FillVals(CUTS::eRMuon1, FILLER::Single, _Muon);
   fillInfo["FillMuon2"] =      new FillVals(CUTS::eRMuon2, FILLER::Single, _Muon);
   fillInfo["FillElectron1"] =  new FillVals(CUTS::eRElec1, FILLER::Single, _Electron);
@@ -187,6 +187,26 @@ void Analyzer::create_fillInfo() {
   }
 
 }
+
+void Analyzer::setupCR(string var, double val) {
+  smatch m;
+  regex part ("^(.+)_(.+)$");
+  if(regex_match(var, m, part)) {
+    string cut = m[1];
+    cut = "Fill" + cut;
+    if(fillInfo.find(cut) == fillInfo.end()) {
+      cout << cut << " not found, put into fillInfo" << endl;
+      exit(1);
+    }
+    testVec.push_back(new CRTester(fillInfo.at(cut), m[2], val));
+  } else {
+    cout << "Could not process line: " << var << endl;
+    exit(1);
+  } 
+
+}
+
+
 
 
 ////destructor
@@ -254,11 +274,13 @@ void Analyzer::preprocess(int event) {
   smearLepton(*_Muon, CUTS::eGMuon, _Muon->pstats["Smear"]);
   smearLepton(*_Tau, CUTS::eGTau, _Tau->pstats["Smear"]);
   smearJet(_Jet->pstats["Smear"]);
-
+  
   //////Triggers and Vertices
   goodParts[CUTS::eRVertex]->resize(bestVertices);
   TriggerCuts(*(trigPlace[0]), *(trigName[0]), CUTS::eRTrig1);
   TriggerCuts(*(trigPlace[1]), *(trigName[1]), CUTS::eRTrig2);
+
+  updateMet();
 
   // // SET NUMBER OF RECO PARTICLES
   // // MUST BE IN ORDER: Muon/Electron, Tau, Jet
@@ -279,15 +301,6 @@ void Analyzer::preprocess(int event) {
   getGoodRecoJets(CUTS::eR2ndJet, _Jet->pstats["SecondLeadingJet"]);
 
   ////Updates Met and does MET cut
-  updateMet();
-
-  /////  SET NUMBER OF RECO MET TOPOLOGY PARTICLES
-  getGoodMetTopologyLepton(*_Electron, CUTS::eRElec1, CUTS::eTElec1, _Electron->pstats["Elec1"]);
-  getGoodMetTopologyLepton(*_Electron, CUTS::eRElec2, CUTS::eTElec2, _Electron->pstats["Elec2"]);
-  getGoodMetTopologyLepton(*_Muon, CUTS::eRMuon1, CUTS::eTMuon1, _Muon->pstats["Muon1"]);
-  getGoodMetTopologyLepton(*_Muon, CUTS::eRMuon2, CUTS::eTMuon2, _Muon->pstats["Muon2"]);
-  getGoodMetTopologyLepton(*_Tau, CUTS::eRTau1, CUTS::eTTau1, _Tau->pstats["Tau1"]);
-  getGoodMetTopologyLepton(*_Tau, CUTS::eRTau2, CUTS::eTTau2, _Tau->pstats["Tau2"]);
 
   ///VBF Susy cut on leadin jets
   if(goodParts[CUTS::eR1stJet]->at(0) != -1 && goodParts[CUTS::eR2ndJet]->at(0) != -1) VBFTopologyCut();
@@ -382,36 +395,13 @@ void Analyzer::CRfillCuts() {
   }
 
   int factor = pow(2, distats["Control_Region"].dmap.size());
-  for(auto maper: distats["Control_Region"].dmap) {
+  for(auto tester: testVec) {
     factor /= 2;
     /////get variable value from maper.first.
-
-    double cr_var = getCRVal(maper.first);
-    cout << maper.first << " " << cr_var <<  endl;
-    if(cr_var > maper.second) { ///pass cut
+    if(tester->test(this)) { ///pass cut
       maxCut += factor;
     }
   }
-}
-
-double Analyzer::getCRVal(string varname) {
-  double value;
-  switch(crValMap[varname]) {
-  case 1:
-    value = 10;
-    break;
-  default:
-    string sedStart = "sed -ri -e 's|(switch\\(crValMap\\[varname\\]\\) \\{)|\\1\\n  case ";
-    string sedMid = ":\\n\\tvalue=";
-    string sedEnd = ";\\n\\tbreak;\\n|p' <testarooni.cc";
-    //    cout << "no value given for " << varname << endl;
-    system("cp src/Analyzer.cc testarooni.cc");
-    system(sedStart+crValMap.size()+sedMid+"10000" +sedEnd);
-    exit(1);
-
-  }
-
-  return value;
 }
 
 
@@ -445,17 +435,17 @@ void Analyzer::printCuts() {
 ///Calculates met from values from each file plus smearing and treating muons as neutrinos
 void Analyzer::updateMet() {
   ////// Neutrino update before calculation
-  if(distats["Run"].bmap.at("TreatMuonsAsNeutrinos")) {
-    for(vec_iter it=goodParts[CUTS::eRMuon1]->begin(); it!=goodParts[CUTS::eRMuon1]->end(); it++) {
-      if(find(goodParts[CUTS::eRMuon2]->begin(), goodParts[CUTS::eRMuon2]->end(), (*it)) != goodParts[CUTS::eRMuon2]->end() ) continue;
-      deltaMEx += _Muon->smearP.at(*it).Px();
-      deltaMEy += _Muon->smearP.at(*it).Py();
-    }    
-    for(vec_iter it=goodParts[CUTS::eRMuon2]->begin(); it!=goodParts[CUTS::eRMuon2]->end(); it++) {
-      deltaMEx += _Muon->smearP.at(*it).Px();
-      deltaMEy += _Muon->smearP.at(*it).Py();
-    }
-  }
+  // if(distats["Run"].bmap.at("TreatMuonsAsNeutrinos")) {
+  //   for(vec_iter it=goodParts[CUTS::eRMuon1]->begin(); it!=goodParts[CUTS::eRMuon1]->end(); it++) {
+  //     if(find(goodParts[CUTS::eRMuon2]->begin(), goodParts[CUTS::eRMuon2]->end(), (*it)) != goodParts[CUTS::eRMuon2]->end() ) continue;
+  //     deltaMEx += _Muon->smearP.at(*it).Px();
+  //     deltaMEy += _Muon->smearP.at(*it).Py();
+  //   }    
+  //   for(vec_iter it=goodParts[CUTS::eRMuon2]->begin(); it!=goodParts[CUTS::eRMuon2]->end(); it++) {
+  //     deltaMEx += _Muon->smearP.at(*it).Px();
+  //     deltaMEy += _Muon->smearP.at(*it).Py();
+  //   }
+  // }
   ///---MHT and HT calculations----////
   int i=0;
   for(vector<TLorentzVector>::iterator it=_Jet->smearP.begin(); it!=_Jet->smearP.end(); it++, i++) {
@@ -567,21 +557,19 @@ void Analyzer::read_info(string filename) {
 
 ///// cut needs is messed up.  Need to add extra cases
 void Analyzer::setCutNeeds() {
+
   for(auto e: Enum<CUTS>()) {
     need_cut[e] = false;
   }
-
   for(auto it: *histo.get_groups()) {
     if(fillInfo[it]->type == FILLER::None) continue;
     need_cut[fillInfo[it]->ePos] = true;
     cout << it << endl;
     if(adjList.find(fillInfo[it]->ePos) == adjList.end()) continue;
     for(auto e: adjList.at(fillInfo[it]->ePos)) {
-      cout << "go" << endl;
       need_cut[e] = true;
     }
   }
-
   for(auto it: *histo.get_order()) {
     need_cut[cut_num.at(it)] = true;
     cout << it << endl;
@@ -591,17 +579,68 @@ void Analyzer::setCutNeeds() {
       need_cut[e] = true;
     }
   }
-  // _Gen->unBranch();
-  // if( !(need_cut[CUTS::eRTau1] || need_cut[CUTS::eRTau2]) ) {
-  //   _Tau->unBranch();
-  // } 
-  // if( !(need_cut[CUTS::eRElec1] || need_cut[CUTS::eRElec2]) ) {
-  //   _Electron->unBranch();
-  // }
-  // if( !(need_cut[CUTS::eRMuon1] || need_cut[CUTS::eRMuon2]) ) {
-  //   _Muon->unBranch();
-  // }
+  for(auto it: testVec) {
+    CUTS ePos = it->info->ePos;
+    need_cut[ePos] = true;
+    cout << it->variable << endl;
+    if(adjList.find(ePos) == adjList.end()) continue;
+    for(auto e: adjList.at(ePos)) {
+      cout << "go" << endl;
+      need_cut[e] = true;
+    }
+  }
 
+  for(auto it: _Jet->extraCuts) {
+    need_cut[it] = true;
+    if(adjList.find(it) == adjList.end()) continue;
+    for(auto e: adjList.at(it)) {
+      cout << "go" << endl;
+      need_cut[e] = true;
+    }
+  }
+
+
+  if( !(need_cut[CUTS::eRTau1] || need_cut[CUTS::eRTau2]) ) {
+    _Tau->unBranch();
+  } else {
+    for(auto it: _Tau->extraCuts) {
+      need_cut[it] = true;
+      if(adjList.find(it) == adjList.end()) continue;
+      for(auto e: adjList.at(it)) {
+	cout << "go" << endl;
+	need_cut[e] = true;
+      }
+    }
+  }
+  if( !(need_cut[CUTS::eRElec1] || need_cut[CUTS::eRElec2]) ) {
+    _Electron->unBranch();
+  } else {
+    for(auto it: _Electron->extraCuts) {
+      need_cut[it] = true;
+      if(adjList.find(it) == adjList.end()) continue;
+      for(auto e: adjList.at(it)) {
+	cout << "go" << endl;
+	need_cut[e] = true;
+      }
+    }
+  }
+  if( !(need_cut[CUTS::eRMuon1] || need_cut[CUTS::eRMuon2]) ) {
+    _Muon->unBranch();
+  } else {
+    for(auto it: _Muon->extraCuts) {
+      need_cut[it] = true;
+      if(adjList.find(it) == adjList.end()) continue;
+      for(auto e: adjList.at(it)) {
+	cout << "go" << endl;
+	need_cut[e] = true;
+      }
+    }
+  }
+  bool passGen = false;
+  for(auto e: genCuts) {
+    passGen = passGen || need_cut[e];
+  }
+  if(!passGen) _Gen->unBranch();
 }
 
 
@@ -775,6 +814,13 @@ void Analyzer::getGoodRecoLeptons(const Lepton& lep, const CUTS ePos, const CUTS
       double secondIso = (stats.pmap.find("IsoSumPtCutValue") != stats.pmap.end()) ? stats.pmap.at("IsoSumPtCutValue").second : 0;
       if(!lep.get_Iso(i, firstIso, secondIso)) continue;
     }
+
+    if ((lep.type != PType::Tau) && stats.bmap.at("DiscrIfIsZdecay")) { 
+      if(isZdecay(lvec, lep)) continue;
+    }
+    if(!passCutRange("MetDphi", absnormPhi(lvec.Phi() - theMETVector.Phi()), stats)) continue;
+    if(!passCutRange("MetMt", calculateLeptonMetMt(lvec), stats)) continue;
+
 
     if(lep.type == PType::Muon) {      ////////////////MUON CUTS/////////////
       if(stats.bmap.at("DoDiscrByTightID") && (_Muon->tight->at(i) == 0)) continue;
@@ -965,19 +1011,6 @@ void Analyzer::VBFTopologyCut() {
 inline bool Analyzer::passCutRange(string CutName, double value, const PartStats& stats) {
   return ( !(stats.bmap.at("DiscrBy" + CutName)) || (value > stats.pmap.at(CutName + "Cut").first && value < stats.pmap.at(CutName + "Cut").second) );
 
-}
-
-void Analyzer::getGoodMetTopologyLepton(const Lepton& lep, CUTS eReco, CUTS ePos, const PartStats& stats) {
-  if(! need_cut[ePos]) return;
-  for(vec_iter it=goodParts[eReco]->begin(); it != goodParts[eReco]->end(); it++) {
-    if ((ePos != CUTS::eTTau1 && ePos != CUTS::eTTau2) && stats.bmap.at("DiscrIfIsZdecay")) { 
-      if(isZdecay(lep.smearP.at(*it), lep)) continue;
-    }
-    if(!passCutRange("MetDphi", absnormPhi(lep.smearP.at(*it).Phi() - theMETVector.Phi()), stats)) continue;
-    if(!passCutRange("MetMt", calculateLeptonMetMt(lep.smearP.at(*it)), stats)) continue;
-
-    goodParts[ePos]->push_back(*it);
-  }
 }
 
 
@@ -1183,17 +1216,8 @@ pair<double, double> Analyzer::getPZeta(const TLorentzVector& Tobj1, const TLore
 
 
 ///Normalizes phi to be between -PI and PI
-double Analyzer::normPhi(double phi) {
-  static double const TWO_PI = TMath::Pi() * 2;
-  while ( phi <= -TMath::Pi() ) phi += TWO_PI;
-  while ( phi >  TMath::Pi() ) phi -= TWO_PI;
-  return phi;
-}
 
 ///Takes the absolute value of of normPhi (made because constant use)
-double Analyzer::absnormPhi(double phi) {
-  return abs(normPhi(phi));
-}
 
 
 
@@ -1489,3 +1513,53 @@ void Analyzer::initializePileupInfo(string MCHisto, string DataHisto) {
 
 }
 
+double normPhi(double phi) {
+  static double const TWO_PI = TMath::Pi() * 2;
+  while ( phi <= -TMath::Pi() ) phi += TWO_PI;
+  while ( phi >  TMath::Pi() ) phi -= TWO_PI;
+  return phi;
+}
+
+double absnormPhi(double phi) {
+  return abs(normPhi(phi));
+}
+
+
+bool CRTester::test(Analyzer* analyzer) {
+  bool pass = false;
+  if(info->type == FILLER::Single) {
+    for(auto index: *analyzer->getList(info->ePos)) {
+  
+      TLorentzVector part = info->part->smearP.at(index);
+      if(variable == "Eta") pass = pass && part.Eta() > cutVal;
+      else if(variable == "Pt") pass = pass && part.Pt() > cutVal;
+      else if(variable == "Energy") pass = pass && part.Energy() > cutVal;
+      //	else if(variable == "Zdecay") pass = pass && analyzer.isZdecay(part, static_cast<Lepton>(*info->part)) > cutVal;
+      //else if(variable == "MetPhi") pass = pass && part.Eta() > cutval;
+    }	  
+  } else if(info->type == FILLER::Dipart) {
+    for(auto index: *analyzer->getList(info->ePos)) {
+
+      TLorentzVector part1 = info->part->smearP.at(index / BIG_NUM);
+      TLorentzVector part2 = info->part2->smearP.at(index % BIG_NUM);
+      if(variable == "DeltaR") pass = pass && part1.DeltaR(part2) > cutVal;
+      else if(variable == "DeltaPtDivSumPt") pass = pass && ((part1.Pt() - part2.Pt()) / (part1.Pt() + part2.Pt()) > cutVal);
+      else if(variable == "DeltaPt") pass = pass && ((part1.Pt() - part2.Pt()) > cutVal);
+      //	else if(variable == "Zeta") pass = pass &&       	double CDFzeta = stats.dmap.at("PZetaCutCoefficient") * getPZeta(part1, part2).first  > cutval;
+      //else if(variable == "OSLS") pass = pass && 
+      else if(variable == "CosDphi") pass = pass && absnormPhi( part1.Phi() - part2.Phi()) > cutVal;
+      //	else if(variable == "Mass") pass = pass && analyzer.diParticleMass(part1, part2, ; > cutval;
+      else if(variable == "DeltaEta") pass = pass && (abs(part1.Eta() - part2.Eta()) > cutVal);
+      else if(variable == "DeltaPhi") pass = pass && (abs(part1.Phi() - part2.Phi()) > cutVal);
+      else if(variable == "OSEta") pass = pass && (part1.Eta() * part2.Eta() > cutVal);
+    }   
+  }	else {
+    /////make get functions
+    if(variable == "Met") pass = (analyzer->getMet() > cutVal);
+    else if(variable == "Ht") pass = (analyzer->getHT() > cutVal);
+    else if(variable == "Mht") pass = (analyzer->getMHT() > cutVal);
+  }
+
+
+  return pass;
+}

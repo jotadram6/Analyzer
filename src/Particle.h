@@ -15,8 +15,9 @@
 #include <TBranch.h>
 #include <TLorentzVector.h>
 
-#include "tokenizer.hpp"
 
+#include "tokenizer.hpp"
+#include "Cut_enum.h"
 
 using namespace std;
 
@@ -36,19 +37,29 @@ class Particle {
   Particle();
   Particle(TTree*, string, string);
   virtual ~Particle() {};
-  void getPartStats(string);
-  void unBranch();
+  virtual void findExtraCuts() {}
 
+  vector<CUTS> extraCuts;
+  
+  void unBranch();
+  PType type;  
+
+  const map<PType,CUTS> cutMap = {{PType::Electron, CUTS::eGElec}, {PType::Muon, CUTS::eGMuon}, 
+				  {PType::Tau, CUTS::eGTau}};
+  
+  
   vector<double>* pt = 0;
   vector<double>* eta = 0;
   vector<double>* phi = 0;
   vector<double>* energy = 0;
-
-  TTree* BOOM;
-  string GenName;
-  PType type;
   unordered_map<string, PartStats> pstats;
   vector<TLorentzVector> smearP;
+  
+ protected:
+  void getPartStats(string);
+  TTree* BOOM;
+  string GenName;
+
 };
 
 /////////////////////////////////////////////////////////////////
@@ -70,6 +81,8 @@ class Jet : public Particle {
 
 public:
   Jet(TTree*, string);
+  
+  void findExtraCuts();
 
   vector<double>* neutralHadEnergyFraction = 0;
   vector<double>* neutralEmEmEnergyFraction = 0;
@@ -86,6 +99,8 @@ class Lepton : public Particle {
 
 public: 
   Lepton(TTree*, string, string);
+
+  void findExtraCuts();
 
   vector<double>* charge = 0;
   
@@ -131,6 +146,8 @@ class Taus : public Lepton {
 
  public:
   Taus(TTree*, string);
+
+  void findExtraCuts();
 
   bool get_Iso(int, double, double) const;
 

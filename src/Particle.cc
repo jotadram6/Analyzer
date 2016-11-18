@@ -37,9 +37,37 @@ Jet::Jet(TTree* _BOOM, string filename) : Particle(_BOOM, "Jet", filename) {
   SetBranch("Jet_partonFlavour", partonFlavour);
   SetBranch("Jet_bDiscriminator_pfCISVV2", bDiscriminator);
 }
+
+void Jet::findExtraCuts() {
+  if(pstats["Smear"].bmap.at("SmearTheJet")) {
+    extraCuts.push_back(CUTS::eGMuon);
+    extraCuts.push_back(CUTS::eGElec);
+    extraCuts.push_back(CUTS::eGTau);
+  }
+  if(pstats["Jet1"].bmap.at("RemoveOverlapWithMuon1s") ||pstats["Jet2"].bmap.at("RemoveOverlapWithMuon1s")) 
+    extraCuts.push_back(CUTS::eRMuon1);
+  if(pstats["Jet1"].bmap.at("RemoveOverlapWithMuon2s") ||pstats["Jet2"].bmap.at("RemoveOverlapWithMuon2s"))
+    extraCuts.push_back(CUTS::eRMuon2);
+  if(pstats["Jet1"].bmap.at("RemoveOverlapWithElectron1s") ||pstats["Jet2"].bmap.at("RemoveOverlapWithElectron1s"))
+    extraCuts.push_back(CUTS::eRElec1);
+  if(pstats["Jet1"].bmap.at("RemoveOverlapWithElectron2s") ||pstats["Jet2"].bmap.at("RemoveOverlapWithElectron2s")) 
+    extraCuts.push_back(CUTS::eRElec2);
+  if(pstats["Jet1"].bmap.at("RemoveOverlapWithTau1s") ||pstats["Jet2"].bmap.at("RemoveOverlapWithTau1s"))
+    extraCuts.push_back(CUTS::eRElec1);
+  if(pstats["Jet1"].bmap.at("RemoveOverlapWithTau2s") ||pstats["Jet2"].bmap.at("RemoveOverlapWithTau2s")) 
+    extraCuts.push_back(CUTS::eRElec2);
+
+}
+
     
 Lepton::Lepton(TTree* _BOOM, string GenName, string EndName) : Particle(_BOOM, GenName, EndName) {
   SetBranch((GenName+"_charge").c_str(), charge);
+}
+
+void Lepton::findExtraCuts() {
+  if(pstats["Smear"].bmap.at("SmearTheParticle") || pstats["Smear"].bmap.at("MatchToGen")) {
+    extraCuts.push_back(cutMap.at(type));
+  }
 }
 
 Electron::Electron(TTree* _BOOM, string filename) : Lepton(_BOOM, "patElectron", filename) {
@@ -152,6 +180,19 @@ Taus::Taus(TTree* _BOOM, string filename) : Lepton(_BOOM, "Tau", filename) {
 
 }
 
+void Taus::findExtraCuts() {
+  Lepton::findExtraCuts();
+
+  if(pstats["Tau1"].bmap.at("RemoveOverlapWithMuon1s") ||pstats["Tau2"].bmap.at("RemoveOverlapWithMuon1s")) 
+    extraCuts.push_back(CUTS::eRMuon1);
+  if(pstats["Tau1"].bmap.at("RemoveOverlapWithMuon2s") ||pstats["Tau2"].bmap.at("RemoveOverlapWithMuon2s"))
+    extraCuts.push_back(CUTS::eRMuon2);
+  if(pstats["Tau1"].bmap.at("RemoveOverlapWithElectron1s") ||pstats["Tau2"].bmap.at("RemoveOverlapWithElectron1s"))
+    extraCuts.push_back(CUTS::eRElec1);
+  if(pstats["Tau1"].bmap.at("RemoveOverlapWithElectron2s") ||pstats["Tau2"].bmap.at("RemoveOverlapWithElectron2s")) 
+    extraCuts.push_back(CUTS::eRElec2);
+}
+
 void Particle::getPartStats(string filename) {
   typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
   ifstream info_file(filename);
@@ -189,6 +230,7 @@ void Particle::getPartStats(string filename) {
   }
   info_file.close();
 
+
 }
 
 
@@ -207,12 +249,8 @@ bool Muon::get_Iso(int index, double min, double max) const {
 }
 
 bool Taus::get_Iso(int index, double onetwo, double max) const {
-  // double maxIsoval = (onetwo == 1) ? maxIso.first->at(i) : maxIso.second->at(i);
-
-  // if
-  //   minIso = (ePos == CUTS::eRTau1) ? minIso.first->at(i) : minIso.second->at(i);
-  // if (minIso > 0.5) continue;
-
-  // return (maxIso > 0.5 && minIso > 0.5);
-  return false;
+  double maxIsoval = (onetwo == 1) ? maxIso.first->at(index) : maxIso.second->at(index);
+  vector<int>* minIsotmp = (onetwo == 1) ? minIso.first : minIso.second;
+  double minIsoval = (minIsotmp != 0) ? minIsotmp->at(index) : true;
+  return (maxIsoval > 0.5 && minIsoval > 0.5);
 }
