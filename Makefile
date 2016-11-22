@@ -11,7 +11,7 @@ LIBS=
 
 SRCDIR = src
 OBJDIR = obj
-EXE = Analyzer
+EXE = AnalyzerNew
 
 #------------------------------------------------------------------------------
 SOURCES = $(wildcard src/*.cc)

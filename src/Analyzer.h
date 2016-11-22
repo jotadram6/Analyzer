@@ -157,15 +157,14 @@ class Analyzer {
   double Met[3] = {0, 0, 0};
 
 
-
+  static vector<CUTS> genCuts;
   double pu_weight, wgt;
 
 
   vector<CRTester*> testVec;
-  
-  vector<CUTS> genCuts = {CUTS::eGTau, CUTS::eGTop, CUTS::eGElec, CUTS::eGMuon, CUTS::eGZ, CUTS::eGW, CUTS::eGHiggs};   
-
 };
+
+vector<CUTS> Analyzer::genCuts = {CUTS::eGTau, CUTS::eNuTau, CUTS::eGTop, CUTS::eGElec, CUTS::eGMuon, CUTS::eGZ, CUTS::eGW, CUTS::eGHiggs};   
 
 struct CRTester {
     
@@ -176,6 +175,8 @@ struct CRTester {
   CRTester(FillVals* _info, string var, double val) : info(_info), variable(var), cutVal(val) {}
   bool test(Analyzer* analyzer);
 };
+
+
 
 
 #endif

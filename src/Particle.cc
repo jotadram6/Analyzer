@@ -239,13 +239,13 @@ void Particle::getPartStats(string filename) {
 bool Electron::get_Iso(int index, double min, double max) const {
   double maxIsoval = std::max(0.0, isoNeutralHadrons->at(index) + isoPhotons->at(index) - 0.5 * isoPU->at(index));
   double isoSum = (isoChargedHadrons->at(index) + maxIsoval) / smearP.at(index).Pt();
-  return (isoSum > min && isoSum < max);
+  return (isoSum >= min && isoSum < max);
 }
 
 bool Muon::get_Iso(int index, double min, double max) const {
   double maxIsoval = std::max(0.0, isoNeutralHadron->at(index) + isoPhoton->at(index) - 0.5 * isoPU->at(index));
   double isoSum = (isoCharged->at(index) + maxIsoval) / smearP.at(index).Pt();
-  return (isoSum > min && isoSum < max);
+  return (isoSum >= min && isoSum < max);
 }
 
 bool Taus::get_Iso(int index, double onetwo, double max) const {
