@@ -20,7 +20,6 @@ Histogramer::Histogramer(int _Npdf, string histname, string cutname, string outf
   read_hist(histname);
 
   if(folderCuts.size() != 0) {
-    cout << "not zero" << endl;
     CR = true;
     for(auto it: data) it.second->setControlRegions();
   }
@@ -191,9 +190,6 @@ void Histogramer::read_cuts(string filename, vector<string>& folderCuts) {
   } else if(cut_order.size() != 0 && ( folders.size() == 0 || folders.back() != cut_order.back())) {
     folders.push_back(cut_order.back());
     folder_num.push_back(cut_order.size() -1);
-  }
-  for(auto names: folders) {
-    cout << names << endl;
   }
 
   info_file.close(); 

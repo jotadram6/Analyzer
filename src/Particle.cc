@@ -44,19 +44,20 @@ void Jet::findExtraCuts() {
     extraCuts.push_back(CUTS::eGElec);
     extraCuts.push_back(CUTS::eGTau);
   }
-  if(pstats["Jet1"].bmap.at("RemoveOverlapWithMuon1s") ||pstats["Jet2"].bmap.at("RemoveOverlapWithMuon1s")) 
-    extraCuts.push_back(CUTS::eRMuon1);
-  if(pstats["Jet1"].bmap.at("RemoveOverlapWithMuon2s") ||pstats["Jet2"].bmap.at("RemoveOverlapWithMuon2s"))
-    extraCuts.push_back(CUTS::eRMuon2);
-  if(pstats["Jet1"].bmap.at("RemoveOverlapWithElectron1s") ||pstats["Jet2"].bmap.at("RemoveOverlapWithElectron1s"))
-    extraCuts.push_back(CUTS::eRElec1);
-  if(pstats["Jet1"].bmap.at("RemoveOverlapWithElectron2s") ||pstats["Jet2"].bmap.at("RemoveOverlapWithElectron2s")) 
-    extraCuts.push_back(CUTS::eRElec2);
-  if(pstats["Jet1"].bmap.at("RemoveOverlapWithTau1s") ||pstats["Jet2"].bmap.at("RemoveOverlapWithTau1s"))
-    extraCuts.push_back(CUTS::eRElec1);
-  if(pstats["Jet1"].bmap.at("RemoveOverlapWithTau2s") ||pstats["Jet2"].bmap.at("RemoveOverlapWithTau2s")) 
-    extraCuts.push_back(CUTS::eRElec2);
 
+}
+
+vector<CUTS> Jet::overlapCuts(CUTS ePos) {
+  string pName = jetNameMap[ePos];
+  vector<CUTS> returnCuts;
+  if(pstats[pName].bmap.at("RemoveOverlapWithMuon1s")) returnCuts.push_back(CUTS::eRMuon1);
+  if(pstats[pName].bmap.at("RemoveOverlapWithMuon2s")) returnCuts.push_back(CUTS::eRMuon2);
+  if(pstats[pName].bmap.at("RemoveOverlapWithElectron1s")) returnCuts.push_back(CUTS::eRElec1);
+  if(pstats[pName].bmap.at("RemoveOverlapWithElectron2s")) returnCuts.push_back(CUTS::eRElec2);
+  if(pstats[pName].bmap.at("RemoveOverlapWithTau1s")) returnCuts.push_back(CUTS::eRTau1);
+  if(pstats[pName].bmap.at("RemoveOverlapWithTau2s")) returnCuts.push_back(CUTS::eRTau2);
+
+  return returnCuts;
 }
 
     

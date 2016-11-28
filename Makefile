@@ -11,7 +11,7 @@ LIBS=
 
 SRCDIR = src
 OBJDIR = obj
-EXE = AnalyzerNew
+EXE = Analyzer
 
 #------------------------------------------------------------------------------
 SOURCES = $(wildcard src/*.cc)
@@ -19,10 +19,9 @@ OBJECTS = $(SOURCES:$(SRCDIR)/%.cc=$(OBJDIR)/%.o)
 
 #------------------------------------------------------------------------------
 
-all: $(OBJECTS) 
-	$(LD) $(LDFLAGS) -o $(EXE) $(OBJECTS) $(LIBS) 
+all: $(EXE)
 
-Analyzer: $(OBJECTS)
+$(EXE): $(OBJECTS)
 	$(LD) $(LDFLAGS) -o $@ $^ $(LIBS) 
 
 obj/main.o: src/main.cc

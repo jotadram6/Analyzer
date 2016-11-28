@@ -157,14 +157,14 @@ class Analyzer {
   double Met[3] = {0, 0, 0};
 
 
-  static vector<CUTS> genCuts;
+  const static vector<CUTS> genCuts;
+  const static vector<CUTS> jetCuts;
   double pu_weight, wgt;
 
 
   vector<CRTester*> testVec;
 };
 
-vector<CUTS> Analyzer::genCuts = {CUTS::eGTau, CUTS::eNuTau, CUTS::eGTop, CUTS::eGElec, CUTS::eGMuon, CUTS::eGZ, CUTS::eGW, CUTS::eGHiggs};   
 
 struct CRTester {
     

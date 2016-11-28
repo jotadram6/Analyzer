@@ -81,8 +81,15 @@ class Jet : public Particle {
 
 public:
   Jet(TTree*, string);
-  
+
+  unordered_map<CUTS, string, EnumHash> jetNameMap = {
+    {CUTS::eRJet1, "Jet1"},               {CUTS::eRJet2, "Jet2"}, 
+    {CUTS::eRCenJet, "CentralJet"},      {CUTS::eRBJet, "BJet"},
+    {CUTS::eR1stJet, "FirstLeadingJet"},  {CUTS::eR2ndJet, "SecondLeadingJet"}
+  };
+
   void findExtraCuts();
+  vector<CUTS> overlapCuts(CUTS);
 
   vector<double>* neutralHadEnergyFraction = 0;
   vector<double>* neutralEmEmEnergyFraction = 0;

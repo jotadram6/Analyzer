@@ -8,7 +8,7 @@ fi
 top=20
 for i in {1..20}
 do
-    { time ./Analyzer OutTree.root test.root > /dev/null; } 2>> time.txt
+    { time ./AnalyzerNew OutTree.root test.root > /dev/null; } 2>> time.txt
 done
 
 

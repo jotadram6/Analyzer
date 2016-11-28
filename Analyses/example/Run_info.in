@@ -24,7 +24,7 @@ TreatMuonsAsNeutrinos 0
 ///-----MET cuts------///
 
 DiscrByMet true
-RecoMetCut 30.0 10000.0
+MetCut 30.0 10000.0
 
 DiscrByMHT false
 MhtCut 50.0

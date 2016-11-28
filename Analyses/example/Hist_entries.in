@@ -27,31 +27,31 @@ GenDiTauMass      100   0.    10000.
 
 //------------------------------------------------//
 
-FillTauJet1 0
+FillTau1 0
 
-NTauJet1                    20   0.      20.
-TauJet1Energy             2000   0.    5000.
-TauJet1Pt                 2000   0.    5000.
-TauJet1Eta                 100  -5.0     +5.0
-FirstLeadingTauJet1Pt     2000   0.    5000.
-FirstLeadingTauJet1Eta     144  -7.2     +7.2
-TauJet1Phi                  36  -3.15    +3.15
-TauJet1NumSignalTracks      10   0       10
-TauJet1SeedTrackPt        2000   0.    5000.
-TauJet1Charge               10  -5.       5.
+NTau1                    20   0.      20.
+Tau1Energy             2000   0.    5000.
+Tau1Pt                 2000   0.    5000.
+Tau1Eta                 100  -5.0     +5.0
+FirstLeadingTau1Pt     2000   0.    5000.
+FirstLeadingTau1Eta     144  -7.2     +7.2
+Tau1Phi                  36  -3.15    +3.15
+Tau1NumSignalTracks      10   0       10
+Tau1SeedTrackPt        2000   0.    5000.
+Tau1Charge               10  -5.       5.
 
-FillTauJet2 0
+FillTau2 0
 
-NTauJet2                    20   0.      20.
-TauJet2Energy             2000   0.    5000.
-TauJet2Pt                 2000   0.    5000.
-TauJet2Eta                 100  -5.0     +5.0
-FirstLeadingTauJet2Pt     2000   0.    5000.
-FirstLeadingTauJet2Eta     144  -7.2     +7.2
-TauJet2Phi                  36  -3.15    +3.15
-TauJet2NumSignalTracks      10   0       10
-TauJet2SeedTrackPt        2000   0.    5000.
-TauJet2Charge               10  -5.       5.
+NTau2                    20   0.      20.
+Tau2Energy             2000   0.    5000.
+Tau2Pt                 2000   0.    5000.
+Tau2Eta                 100  -5.0     +5.0
+FirstLeadingTau2Pt     2000   0.    5000.
+FirstLeadingTau2Eta     144  -7.2     +7.2
+Tau2Phi                  36  -3.15    +3.15
+Tau2NumSignalTracks      10   0       10
+Tau2SeedTrackPt        2000   0.    5000.
+Tau2Charge               10  -5.       5.
 
 //------------------------------------------------//
 
@@ -135,10 +135,9 @@ CentralJetEta   100  -5.0   +5.0
 
 //------------------------------------------------//
 
-FillSusyCuts 0
+FillMetCuts 0
 
 Met                100  0  1000
-MetDiJetDeltaPhi    72  0    +3.15
 MHT                500  0  5000
 HT                 500  0  5000
 Meff               500  0  5000
@@ -164,6 +163,7 @@ Dphi2MHT               72  -6.3    +6.3
 Dphi1MHT               72  -6.3    +6.3
 Dphi2                  72  -6.3    +6.3
 Alpha                  50   0       2
+MetDiJetDeltaPhi       72   0      +3.15
 
 Dphi1VsDphi2                  72  -6.3    +6.3  72  -6.3  +6.3
 MetVsDiJetDeltaPhiLeadSubl   100   0    1000.   72   0    +3.15
@@ -180,17 +180,15 @@ DiJetDeltaPhi          72   0    +3.15
 DiJetMass            1000   0  5000
 DiJetPt              1000   0  5000
 
-LeadDiJetMass        1000   0  5000
-LeadDiJetPt          1000   0  5000
-LeadDiJetEtaProduct     4  -2     2
-LeadDiJetDeltaR       200   0    10.
-LeadDiJetDeltaEta     200   0    10.
-
-///LeadDiJetDeltaPhi 72 0 +3.15   not in code
+LargestDiJetMass        1000   0  5000
+LargestDiJetPt          1000   0  5000
+LargestDiJetEtaProduct     4  -2     2
+LargestDiJetDeltaR       200   0    10.
+LargestMassDiJetDeltaEta     200   0    10.
 
 //------------------------------------------------//
 
-FillDiMuon 0
+FillDiMuon 1
 
 DiMuon_Muon1DiJetDeltaPhi       72     0       +3.15
 DiMuon_Muon2DiJetDeltaPhi       72     0       +3.15 
@@ -218,7 +216,7 @@ Muon1MetDeltaPhiVsDiMuonCosDphi   72  0   +3.15  220    -1.1    1.1
 
 //------------------------------------------------//
 
-FillDiTau 0
+FillDiTau 1
 
 DiTau_Tau1DiJetDeltaPhi          72     0    +3.15 
 DiTau_Tau2DiJetDeltaPhi          72     0    +3.15
@@ -347,7 +345,7 @@ Muon2MetDeltaPhiVsMuon2Tau2CosDphi    72     0       +3.15   220    -1.1     1.1
 
 //------------------------------------------------//
 
-FillElectron1Tau1 1
+FillElectron1Tau1 0
 
 Electron1Tau1_Tau1DiJetDeltaPhi           72     0       +3.15
 Electron1Tau1_Electron1DiJetDeltaPhi          72     0       +3.15

@@ -12,7 +12,7 @@ PhiSigmaOffset 1.
 EnergyScaleOffset 1.
 EnergySigmaOffset 1.
 
-MatchToGen 1
+MatchToGen 0
 GenMatchingDeltaR 0.1
 
 //////////////////////////////
@@ -27,53 +27,21 @@ PtCut 20.0 9999.9
 DoDiscrByLeadTrack false
 LeadTrackThreshold 3.0
 
-  #####List of Isolation#####
-  ##
-  ## byVLooseIsolationMVA3newDMwLT
-  ## byVLooseIsolationMva3oldDMwLT
 
-  ## byLooseIsolationMVA3newDMwLT
-  ## byMediumIsolationMVA3newDMwLT
-  ## byTightIsolationMVA3newDMwLT
-
-  ## byLooseIsolationMVA3oldDMwLT
-  ## byMediumIsolationMVA3oldDMwLT
-  ## byTightIsolationMVA3oldDMwLT
-
-  ## byLooseCombinedIsolationDeltaBetaCorr3Hits
-  ## byMediumCombinedIsolationDeltaBetaCorr3Hits
-  ## byTightCombinedIsolationDeltaBetaCorr3Hits
-
-  ## byLoosePileupWeightedIsolation3Hits
-  ## byMediumPileupWeightedIsolation3Hits
-  ## byTightPileupWeightedIsolation3Hits
-
-DoDiscrByIsolation true
+DoDiscrByIsolation false
 DiscrByMinIsolation ZERO
 DiscrByMaxIsolation byTightIsolationMVArun2v1DBnewDMwLT
 DiscrByProngType 1or2or3hps
 
-  #####List of Electron Discriminators#####
-  ##
-  ##  againstElectronMVAVLooseMVA5
-  ##  againstElectronMVALooseMVA5
-  ##  againstElectronMVAMediumMVA5
-  ##  againstElectronMVATightMVA5
-
-DoDiscrAgainstElectron true
+DoDiscrAgainstElectron false
 DiscrAgainstElectron againstElectronMVALooseMVA6
 SelectTausThatAreElectrons false
 
-  #####List of Electron Discriminators#####
-  ##
-  ## againstMuonLoose3
-  ## againstMuonTight3
-
-DoDiscrAgainstMuon true
+DoDiscrAgainstMuon false
 DiscrAgainstMuon againstMuonTight3
 SelectTausThatAreMuons false
 
-DoDiscrByCrackCut false
+DoDiscrByCrackCut true
 
 RemoveOverlapWithMuon1s false
 RemoveOverlapWithMuon2s false
@@ -99,20 +67,19 @@ MetMtCut 0.0    50.0
 
 //----RECO CUTS----////
 
-EtaCut 2.1
+EtaCut 2.5
 PtCut 20.0 9999.9
 
 DoDiscrByLeadTrack 0
 LeadTrackThreshold 5.0
 
-DoDiscrByIsolation true
+DoDiscrByIsolation false
 DiscrByMinIsolation ZERO
 DiscrByMaxIsolation byTightIsolationMVArun2v1DBnewDMwLT
-///DiscrByMaxIsolation byTightIsolationMVA3newDMwLT
 DiscrByProngType 1or2or3hps
 
 DoDiscrAgainstElectron 0
-DiscrAgainstElectron againstElectronMVALooseMVA5
+DiscrAgainstElectron againstElectronMVALooseMVA6
 SelectTausThatAreElectrons 0
 
 DoDiscrAgainstMuon 0
