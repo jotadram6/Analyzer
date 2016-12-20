@@ -36,7 +36,8 @@ class Particle {
  public:
   Particle();
   Particle(TTree*, string, string);
-  virtual ~Particle() {};
+  virtual ~Particle() {}
+
   virtual void findExtraCuts() {}
 
   vector<CUTS> extraCuts;
@@ -61,6 +62,24 @@ class Particle {
   string GenName;
 
 };
+
+class Photon : public Particle {
+public:
+  Photon();
+  Photon(TTree*, string);
+
+  vector<double>* et = 0;
+  vector<double>* hoverE = 0;
+  vector<double>* phoR = 0;
+  vector<double>* sigmaIEtaIEta = 0;
+  vector<double>* sigmaIPhiIPhi = 0;
+  vector<double>* pfChIso = 0;
+  vector<double>* pfPhoIso = 0;
+  vector<double>* pfNeuIso = 0;
+  vector<bool>*   eleVeto = 0;
+  vector<bool>*   hasPixelSeed = 0;
+};
+
 
 /////////////////////////////////////////////////////////////////
 class Generated : public Particle {

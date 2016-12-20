@@ -53,7 +53,14 @@ class Analyzer {
   double getMet() {return theMETVector.Pt();}
   double getHT() {return sumptForHt;}
   double getMHT() {return sqrt((sumpxForMht * sumpxForMht) + (sumpyForMht * sumpyForMht));}
+  double getMass(const TLorentzVector& Tobj1, const TLorentzVector& Tobj2, string partName) {
+    return diParticleMass(Tobj1, Tobj2, distats[partName].smap.at("HowCalculateMassReco"));
+  }
+  double getZeta(const TLorentzVector& Tobj1, const TLorentzVector& Tobj2, string partName) {
+    return distats[partName].dmap.at("PZetaCutCoefficient") * getPZeta(Tobj1, Tobj2).first;
+  }
 
+  bool partPassBoth(string);
 
  private:
   
@@ -76,7 +83,7 @@ class Analyzer {
   TLorentzVector matchTauToGen(const TLorentzVector&, double);
 
   void getGoodTauNu();  
-  void getGoodGen(int, int, CUTS, const PartStats&);
+  void getGoodGen(const PartStats&);
   void getGoodRecoLeptons(const Lepton&, const CUTS, const CUTS, const PartStats&);
   void getGoodRecoJets(CUTS, const PartStats&);
 
@@ -84,7 +91,7 @@ class Analyzer {
   void getGoodLeptonCombos(Lepton&, Lepton&, CUTS,CUTS,CUTS, const PartStats&);
   void getGoodDiJets(const PartStats&);
 
-  void VBFTopologyCut();
+  void VBFTopologyCut(const PartStats&);
   void TriggerCuts(vector<int>&, const vector<string>&, CUTS);
 
 
@@ -146,7 +153,7 @@ class Analyzer {
   double deltaMEx, deltaMEy, sumpxForMht, sumpyForMht, sumptForHt, phiForMht;
 
   double maxIso, minIso;
-  int leadIndex, maxCut;
+  int leadIndex, maxCut, crbins=1;
   bool isData, CalculatePUSystematics;
 
   vector<double>* Trigger_decision = 0;
@@ -160,7 +167,7 @@ class Analyzer {
   const static vector<CUTS> genCuts;
   const static vector<CUTS> jetCuts;
   double pu_weight, wgt;
-
+  unordered_map<int, GenFill*> genMaper;
 
   vector<CRTester*> testVec;
 };
@@ -171,8 +178,9 @@ struct CRTester {
   const FillVals* info;
   const string variable;
   const double cutVal;
+  const string partName;
 
-  CRTester(FillVals* _info, string var, double val) : info(_info), variable(var), cutVal(val) {}
+CRTester(FillVals* _info, string var, double val, string _name) : info(_info), variable(var), cutVal(val), partName(_name) {}
   bool test(Analyzer* analyzer);
 };
 

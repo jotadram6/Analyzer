@@ -3,10 +3,8 @@
 using namespace std;
 
 Piece1D::Piece1D(string _name, int _bins, double _begin, double _end, int _Nfold) :  
-  DataPiece(_name, _Nfold, (_bins+2)), begin(_begin), end(_end), bins(_bins) {
-  
-  width = (end - begin)/bins;
-}
+  DataPiece(_name, _Nfold, (_bins+2)), begin(_begin), end(_end), bins(_bins), width((end - begin)/bins) {}
+
 
 int Piece1D::get_bin(double y) const {
   return (int)((y-begin)/width);
@@ -21,7 +19,8 @@ void Piece1D::bin(int folder, double y, double weight) {
 void Piece1D::write_histogram(vector<string>& folders, TFile* outfile) {
   double entries;
   TH1D histogram(name.c_str(), name.c_str(), bins, begin, end);
-  for(int i = 0; i<Nfold; i++) {
+  
+  for(int i =0; i < (int)folders.size(); i++) {
     outfile->cd(folders.at(i).c_str());
     entries = 0;
     for(int j = 0; j < (bins+2); j++) {
@@ -37,11 +36,9 @@ void Piece1D::write_histogram(vector<string>& folders, TFile* outfile) {
 /*------------------------------------------------------------------------------------------*/
 
 Piece2D::Piece2D(string _name, int _binx, double _beginx, double _endx, int _biny, double _beginy, double _endy, int _Nfold) :
-  DataPiece(_name, _Nfold, (_binx+2)*(_biny+2)), beginx(_beginx), endx(_endx), beginy(_beginy), endy(_endy), binx(_binx), biny(_biny) {
+  DataPiece(_name, _Nfold, (_binx+2)*(_biny+2)), beginx(_beginx), endx(_endx), beginy(_beginy), endy(_endy), binx(_binx), biny(_biny),  widthx((endx - beginx)/binx), widthy((endy - beginy)/biny) {
   
-  widthx = (endx - beginx)/binx;
-  widthy = (endy - beginy)/biny;
-  
+  is1D = false;
 }
 
 
@@ -64,7 +61,7 @@ void Piece2D::write_histogram(vector<string>& folders, TFile* outfile) {
   double entries;
   TH2D histogram(name.c_str(), name.c_str(), binx, beginx, endx, biny, beginy, endy);
 
-  for(int i = 0; i<Nfold; i++) {
+  for(size_t i =0; i < folders.size(); i++) {
     
     outfile->cd(folders.at(i).c_str());
     entries = 0;
@@ -82,25 +79,40 @@ void Piece2D::write_histogram(vector<string>& folders, TFile* outfile) {
  
 DataBinner::DataBinner(){}
 
-DataBinner::DataBinner(const DataBinner& rhs) {
+DataBinner::DataBinner(const DataBinner& rhs) : CR(rhs.CR) {
   order = rhs.order;
-  CR = rhs.CR;
 
-  for(unordered_map<string, DataPiece*>::const_iterator it = rhs.datamap.begin(); it!=rhs.datamap.end(); it++) {
-    if(dynamic_cast<Piece1D*>(it->second) != NULL) {
-      datamap[it->first] = new Piece1D(*dynamic_cast<Piece1D*>(it->second));
-    } else if(dynamic_cast<Piece2D*>(it->second) != NULL) {
-      datamap[it->first] = new Piece2D(*dynamic_cast<Piece2D*>(it->second));
+  for(auto it: rhs.datamap) {
+    if(it.second->is1D) {
+      datamap[it.first] = new Piece1D(*static_cast<Piece1D*>(it.second));
+    } else {
+      datamap[it.first] = new Piece2D(*static_cast<Piece2D*>(it.second));
     }
   }
 
 }
 
-DataBinner::~DataBinner() {
-  for(unordered_map<string, DataPiece*>::iterator it = datamap.begin(); it!=datamap.end(); it++) {
-    delete it->second;
-    it->second = NULL;
+DataBinner::DataBinner(DataBinner&& rhs) : CR(rhs.CR) {
+  for(auto it: datamap) {
+    if(it.second != nullptr) {
+      delete it.second;
+      it.second = nullptr; 
+    }
+  }
 
+  order = rhs.order;
+  datamap.swap(rhs.datamap);
+
+  rhs.datamap.clear();
+}
+
+
+DataBinner::~DataBinner() {
+  for(auto it: datamap) {
+    if( it.second != nullptr) {
+      delete it.second;
+      it.second = nullptr;
+    }
   }
 }
 
@@ -116,8 +128,9 @@ void DataBinner::Add_Hist(string shortname, string fullname, int binx, double le
 
 
 void DataBinner::AddPoint(string name, int maxfolder, double value, double weight) {
-  if(datamap.find(name) == datamap.end())  return;
+  if(datamap[name] == nullptr)  return;
 
+  
   if(CR) {
     datamap[name]->bin(maxfolder,value, weight);
     return;
@@ -129,7 +142,7 @@ void DataBinner::AddPoint(string name, int maxfolder, double value, double weigh
 }
 
 void DataBinner::AddPoint(string name, int maxfolder, double valuex, double valuey, double weight) {
-  if(datamap.find(name) == datamap.end()) return;
+  if(datamap[name] == nullptr) return;
 
   if(CR) {
     datamap[name]->bin(maxfolder,valuex, valuey, weight);

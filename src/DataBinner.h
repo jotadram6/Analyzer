@@ -36,13 +36,15 @@ bin(int folder, double x, (double y), double weight)
 class DataPiece {
  protected:
   const string name;
-  const int Nfold, fold_width;
+  const int fold_width;
   vector<double> data;
+  
 
  public:
 
+  bool is1D;
  DataPiece(string _name, int _Nfold, int _fold_width) : 
-  name(_name), Nfold(_Nfold), fold_width(_fold_width), data(_Nfold*_fold_width, 0) {};
+  name(_name), fold_width(_fold_width), data(_Nfold*_fold_width, 0), is1D(true) {};
  virtual ~DataPiece() {};
  virtual void write_histogram(vector<string>&, TFile*) {};
  virtual void bin(int, double, double) {};
@@ -109,7 +111,11 @@ class DataBinner {
 public:
   DataBinner();
   DataBinner(const DataBinner&);
+  DataBinner(DataBinner&&);
+  DataBinner& operator=(const DataBinner&);
+  DataBinner& operator=(DataBinner&&);
   ~DataBinner();
+
   void AddPoint(string,int, double, double);
   void AddPoint(string,int, double, double, double);
   void Add_Hist(string, string, int, double, double, int);

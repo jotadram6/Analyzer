@@ -2,7 +2,7 @@
 #define CUTS_ENUM_H_  
 
 #include <string>
-
+#include <functional>
 template< typename T >
 class Enum {
 public:
@@ -40,14 +40,15 @@ typename Enum<T>::Iterator end( Enum<T> ) {
 }
 
 
-struct EnumHash
-{
-    template <typename T>
-    std::size_t operator()(T t) const
-  {
+struct EnumHash {
+  template<typename T> inline typename std::enable_if<std::is_enum<T>::value, std::size_t>::type
+    
+    operator()(const T&t) const  {
     return static_cast<std::size_t>(t);
   }
+
 };
+
 
 enum class CUTS { 
   eGen,

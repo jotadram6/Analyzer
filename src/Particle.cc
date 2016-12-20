@@ -17,6 +17,20 @@ void Particle::unBranch() {
   BOOM->SetBranchStatus((GenName+"*").c_str(), 0);
 }
 
+
+Photon::Photon(TTree* _BOOM, string filename) : Particle(_BOOM, "Photon", filename) {
+  SetBranch("Photon_et", et);
+  SetBranch("Photon_HoverE", hoverE);
+  SetBranch("Photon_phoR9", phoR);
+  SetBranch("Photon_SigmaIEtaIEta", sigmaIEtaIEta);
+  SetBranch("Photon_SigmaIPhiIPhi", sigmaIPhiIPhi);
+  SetBranch("Photon_PFChIso", pfChIso);
+  SetBranch("Photon_PFPhoIso", pfPhoIso);
+  SetBranch("Photon_PFNeuIso", pfNeuIso);
+  SetBranch("Photon_EleVeto", eleVeto);
+  SetBranch("Photon_hasPixelSeed", hasPixelSeed);
+}
+
 Generated::Generated(TTree* _BOOM, string filename) : Particle(_BOOM, "Gen", filename) {
 
   SetBranch("Gen_pdg_id", pdg_id);
@@ -48,9 +62,9 @@ void Jet::findExtraCuts() {
 }
 
 vector<CUTS> Jet::overlapCuts(CUTS ePos) {
-  string pName = jetNameMap[ePos];
+  string pName = jetNameMap.at(ePos);
   vector<CUTS> returnCuts;
-  if(pstats[pName].bmap.at("RemoveOverlapWithMuon1s")) returnCuts.push_back(CUTS::eRMuon1);
+  if(pstats.at(pName).bmap.at("RemoveOverlapWithMuon1s")) returnCuts.push_back(CUTS::eRMuon1);
   if(pstats[pName].bmap.at("RemoveOverlapWithMuon2s")) returnCuts.push_back(CUTS::eRMuon2);
   if(pstats[pName].bmap.at("RemoveOverlapWithElectron1s")) returnCuts.push_back(CUTS::eRElec1);
   if(pstats[pName].bmap.at("RemoveOverlapWithElectron2s")) returnCuts.push_back(CUTS::eRElec2);

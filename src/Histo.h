@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <boost/unordered_map.hpp>
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -27,18 +28,19 @@ class Histogramer {
 
  public:
   Histogramer();
-  Histogramer(int, string, string, string, bool);
   Histogramer(int, string, string, string, bool, vector<string>&);
   Histogramer(const Histogramer&);
+  Histogramer(Histogramer&&);
   Histogramer& operator=(const Histogramer&);
+  Histogramer& operator=(Histogramer&&);
   ~Histogramer();
   
-  vector<int> get_folders();
-  
-  unordered_map<string,pair<int,int>>* get_cuts();
-  vector<string>* get_order();
-  vector<string>* get_groups();
-  void setupSVFit(string, string, double, double, double);
+  const unordered_map<string,pair<int,int>>* get_cuts() const {return &cuts;}
+  const vector<string>* get_cutorder() const {return &cut_order;}
+  const vector<string>* get_groups() const {return &data_order;}
+  const vector<string>* get_folders() const {return &folders;}
+  int get_maxfolder() const {return (folderToCutNum.back()+1);}
+
   void addVal(double, string, int, string, double);
   void addVal(double, double, string, int, string, double);
   void fill_histogram();
@@ -50,18 +52,21 @@ class Histogramer {
   int NFolders;
   int Npdf;
   bool isData, CR=false;
+
   unordered_map<string, pair<int,int>> cuts;
   vector<string> cut_order;
+
   vector<string> folders;
-  vector<int> folder_num;
-  unordered_map<string, DataBinner*> data;
+  vector<int> folderToCutNum;
+
+  boost::unordered_map<string, DataBinner*> data;
   vector<string> data_order;
 
   void read_hist(string);
   void read_cuts(string filename, vector<string>&);
-  void fillFolder(string, int, bool, const vector<string>&);
+  void fillCRFolderNames(string, int, bool, const vector<string>&);
   
-  string extractHistname(string, string);
+  string extractHistname(string, string) const;
 };
 
 #endif
