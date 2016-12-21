@@ -129,6 +129,10 @@ Analyzer::Analyzer(string infile, string outfile, bool setCR) : goodParts(getArr
   _Jet->findExtraCuts();
 
 
+  if(setCR && isData) {
+    cout << "Using control Regions with data.  Not a function till blinding of Signal Regions is put in the code" <<endl;
+    exit(1);
+  }
 
   vector<string> cr_variables;
   if(setCR) {
