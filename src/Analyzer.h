@@ -170,6 +170,8 @@ class Analyzer {
   unordered_map<int, GenFill*> genMaper;
 
   vector<CRTester*> testVec;
+  int SignalRegion = -1;
+  bool blinded = true;
 };
 
 

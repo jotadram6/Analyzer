@@ -129,11 +129,6 @@ Analyzer::Analyzer(string infile, string outfile, bool setCR) : goodParts(getArr
   _Jet->findExtraCuts();
 
 
-  if(setCR && isData) {
-    cout << "Using control Regions with data.  Not a function till blinding of Signal Regions is put in the code" <<endl;
-    exit(1);
-  }
-
   vector<string> cr_variables;
   if(setCR) {
     char buf[64];
@@ -143,6 +138,24 @@ Analyzer::Analyzer(string infile, string outfile, bool setCR) : goodParts(getArr
       cr_variables.push_back(maper.first);
       sprintf(buf, "%.*G", 16, maper.second);
       cr_variables.push_back(buf);
+    }
+    if(isData) {
+      if(distats["Control_Region"].smap.find("SR") == distats["Control_Region"].smap.end()) {
+	cout << "Using Control Regions with data, but no signal region specified can lead to accidentially unblinding a study  before it should be.  Please specify a SR in the file PartDet/Control_Region.in" << endl;
+	exit(1);
+      } else if(distats["Control_Region"].smap.at("SR").length() != distats["Control_Region"].dmap.size()) {
+	cout << "Signal Region specified incorrectly: check signal region variable to make sure the number of variables matches the number of signs in SR" << endl;
+	exit(1);
+      }
+      int factor = 1;
+      SignalRegion = 0;
+      for(auto gtltSign: distats["Control_Region"].smap["SR"]) {
+	if(gtltSign == '>') SignalRegion += factor;
+	factor *= 2;
+      }
+      if(distats["Control_Region"].bmap.find("Unblind") != distats["Control_Region"].bmap.end()) {
+	blinded = !distats["Control_Region"].bmap["Unblind"];
+      }
     }
   }
 
@@ -289,13 +302,10 @@ void Analyzer::clear_values() {
 void Analyzer::preprocess(int event) {
   BOOM->GetEntry(event);
 
-  //TODO: add in pdf vector(set to 1 for now);
-  
   theMETVector.SetPxPyPzE(Met[0], Met[1], Met[2], sqrt(pow(Met[0],2) + pow(Met[1],2)));
   pu_weight = (!isData && CalculatePUSystematics) ? hPU[(int)(nTruePU+1)] : 1.0;
 
   // SET NUMBER OF GEN PARTICLES
-  // TODOGeneralize to remove magic numbers
   if(!isData){
     getGoodGen(_Gen->pstats["Gen"]);
     getGoodTauNu();
@@ -427,7 +437,7 @@ void Analyzer::CRfillCuts() {
       maxCut += factor;
     }
   }
-
+  if(isData && blinded && maxCut == SignalRegion) return;
   cuts_per[maxCut]++;
 }
 
@@ -450,9 +460,11 @@ void Analyzer::printCuts() {
   for(size_t i = 0; i < cut_order.size(); i++) {
     cout << setw(28) << cut_order.at(i) << "    ";
     if(isData && cut_order.at(i).find("Gen") != string::npos) cout << "Skipped" << endl;
+    else if(crbins != 1 && blinded && i == SignalRegion) cout << "Blinded Signal Region" << endl;
     else {
       cout << setw(10) << cuts_per.at(i) << "  ( " << setw(5) << ((float)cuts_per.at(i)) / nentries << ") ";
       if(crbins == 1) cout << setw(12) << cuts_cumul.at(i) << "  ( " << setw(5) << ((float)cuts_cumul.at(i)) / nentries << ") ";
+
       cout << endl;
     }
   }
@@ -586,7 +598,7 @@ void Analyzer::read_info(string filename) {
 }
 
 
-///// cut needs is messed up.  Need to add extra cases
+// This code works pretty much (at least in my tests), but dagnabit, its ugly.  They all can't be winners, at least now...
 void Analyzer::setCutNeeds() {
 
   for(auto e: Enum<CUTS>()) {
@@ -1278,6 +1290,7 @@ void Analyzer::fill_histogram() {
 
   if(crbins != 1) CRfillCuts();
   else fillCuts();
+  if(isData && blinded && maxCut == SignalRegion) return;
   const vector<string>* groups = histo.get_groups();
   wgt = pu_weight;
   if(distats["Run"].bmap["ApplyGenWeight"]) wgt *= (gen_weight > 0) ? 1.0 : -1.0;
