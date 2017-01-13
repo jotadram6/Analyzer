@@ -1367,7 +1367,8 @@ void Analyzer::fill_Folder(string group, const int max) {
 	histAddVal(_Tau->nProngs->at(*it), "NumSignalTracks");
   	histAddVal(_Tau->charge->at(*it), "Charge");
 	histAddVal(_Tau->leadChargedCandPt->at(*it), "SeedTrackPt");
-      } else if(part->type != PType::Jet) {
+      } 
+      if(part->type != PType::Jet) {
       	histAddVal(calculateLeptonMetMt(part->smearP.at(*it)), "MetMt");  
       }
     }
