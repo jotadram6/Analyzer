@@ -683,6 +683,9 @@ void Analyzer::setCutNeeds() {
       }
     }
   }
+
+  if(isData) return;
+
   bool passGen = false;
   for(auto e: genCuts) {
     passGen = passGen || need_cut[e];
