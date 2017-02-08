@@ -12,3 +12,6 @@ Particle
 work_svfit
 PartDet/*.in
 *.C
+Analyses/*
+Pileup/*
+Analyze_Grid/

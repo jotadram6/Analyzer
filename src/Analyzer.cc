@@ -104,6 +104,7 @@ void Analyzer::preprocess(int event) {
   //TODO: add in pdf vector(set to 1 for now);
   
   theMETVector.SetPxPyPzE(Met_px, Met_py, Met_pz, sqrt(pow(Met_px,2) + pow(Met_py,2)));
+  theMETVector_OnlyMET.SetPxPyPzE(Met_px, Met_py, Met_pz, sqrt(pow(Met_px,2) + pow(Met_py,2)));
   pu_weight = (!isData && CalculatePUSystematics) ? getPileupWeight(nTruePU) : 1.0;
 
   // SET NUMBER OF GEN PARTICLES
@@ -149,7 +150,7 @@ void Analyzer::preprocess(int event) {
   getGoodRecoJets(CUTS::eR2ndJet, _Jet->pstats["SecondLeadingJet"]);
 
   ////Updates Met and does MET cut
-  updateMet();
+  //updateMet();
 
   /////  SET NUMBER OF RECO MET TOPOLOGY PARTICLES
   getGoodMetTopologyLepton(*_Electron, CUTS::eRElec1, CUTS::eTElec1, _Electron->pstats["Elec1"]);
@@ -158,6 +159,9 @@ void Analyzer::preprocess(int event) {
   getGoodMetTopologyLepton(*_Muon, CUTS::eRMuon2, CUTS::eTMuon2, _Muon->pstats["Muon2"]);
   getGoodMetTopologyLepton(*_Tau, CUTS::eRTau1, CUTS::eTTau1, _Tau->pstats["Tau1"]);
   getGoodMetTopologyLepton(*_Tau, CUTS::eRTau2, CUTS::eTTau2, _Tau->pstats["Tau2"]);
+
+  ////Updates Met and does MET cut
+  updateMet();
 
   ///VBF Susy cut on leadin jets
   if(goodParts[ival(CUTS::eR1stJet)].at(0) != -1 && goodParts[ival(CUTS::eR2ndJet)].at(0) != -1) VBFTopologyCut();
@@ -833,9 +837,9 @@ void Analyzer::getGoodMetTopologyLepton(const Lepton& lep, CUTS eReco, CUTS ePos
 
 //-----Calculate lepton+met transverse mass
 double Analyzer::calculateLeptonMetMt(const TLorentzVector& Tobj) {
-  double px = Tobj.Px() + theMETVector.Px();
-  double py = Tobj.Py() + theMETVector.Py();
-  double et = Tobj.Et() + theMETVector.Energy(); //TMath::Sqrt((theMETVector.Px() * theMETVector.Px()) + (theMETVector.Py() * theMETVector.Py()));
+  double px = Tobj.Px() + theMETVector_OnlyMET.Px();
+  double py = Tobj.Py() + theMETVector_OnlyMET.Py();
+  double et = Tobj.Et() + theMETVector_OnlyMET.Energy(); //TMath::Sqrt((theMETVector.Px() * theMETVector.Px()) + (theMETVector.Py() * theMETVector.Py()));
   double mt2 = et*et - (px*px + py*py);
   return (mt2 >= 0) ? sqrt(mt2) : -1;
 }
@@ -876,6 +880,15 @@ double Analyzer::diParticleMass(const TLorentzVector& Tobj1, const TLorentzVecto
     double py = Tobj1.Py() + Tobj2.Py() + theMETVector.Py();
     double pz = Tobj1.Pz() + Tobj2.Pz();
     double e  = Tobj1.Energy() + Tobj2.Energy() + theMETVector.Energy();///TMath::Sqrt(pow(theMETVector.Px(),2) + pow(theMETVector.Py(),2));
+    The_LorentzVect.SetPxPyPzE(px, py, pz, e);
+    return The_LorentzVect.M();
+  }
+
+  if(howCalc == "InvariantMass") {
+    double px = Tobj1.Px() + Tobj2.Px();
+    double py = Tobj1.Py() + Tobj2.Py();
+    double pz = Tobj1.Pz() + Tobj2.Pz();
+    double e  = Tobj1.Energy() + Tobj2.Energy();
     The_LorentzVect.SetPxPyPzE(px, py, pz, e);
     return The_LorentzVect.M();
   }
@@ -1412,7 +1425,7 @@ void Analyzer::initializePileupInfo(string MCHisto, string DataHisto) {
   // As you can see above cstr1 corresponds to MC and cstr2 corresponds to data.
 
   TFile *file1 = new TFile((PUSPACE+MCHisto).c_str());
-  TH1* histmc = static_cast<TH1*>(file1->Get("analyzeHiMassTau/NVertices_0"));
+  TH1* histmc = static_cast<TH1*>(file1->Get("analyzeHiMassTau/pileup"));
   if(!histmc) {throw std::runtime_error("failed to extract histogram");}
   for(int bin=0; bin<=(histmc->GetXaxis()->GetNbins() + 1); bin++) {
     hPUmc->SetBinContent(bin,histmc->GetBinContent(bin));
@@ -1420,7 +1433,7 @@ void Analyzer::initializePileupInfo(string MCHisto, string DataHisto) {
   file1->Close();
 
   TFile* file2 = new TFile((PUSPACE+DataHisto).c_str());
-  TH1* histdata = static_cast<TH1*>(file2->Get("analyzeHiMassTau/NVertices_0"));
+  TH1* histdata = static_cast<TH1*>(file2->Get("analyzeHiMassTau/pileup"));
   if(!histdata) {throw std::runtime_error("failed to extract histogram");}
   for(int bin=0; bin<=(histdata->GetXaxis()->GetNbins() + 1); bin++) {
     hPUdata->SetBinContent(bin,histdata->GetBinContent(bin));

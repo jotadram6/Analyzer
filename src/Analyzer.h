@@ -130,6 +130,7 @@ class Analyzer {
   vector<int> cuts_per, cuts_cumul;
 
   TLorentzVector theMETVector;
+  TLorentzVector theMETVector_OnlyMET;
   double deltaMEx, deltaMEy, sumpxForMht, sumpyForMht, sumptForHt, phiForMht;
   double againstElectron, againstMuon, maxIso, minIso;
   int leadIndex, maxCut;
