@@ -83,7 +83,10 @@ const unordered_map<string, CUTS> Analyzer::cut_num = {
   {"NElectron2Tau1Combinations", CUTS::eElec2Tau1},     {"NElectron2Tau2Combinations", CUTS::eElec2Tau2},
   {"NMuon1Electron1Combinations", CUTS::eMuon1Elec1},   {"NMuon1Electron2Combinations", CUTS::eMuon1Elec2},
   {"NMuon2Electron1Combinations", CUTS::eMuon2Elec1},   {"NMuon2Electron2Combinations", CUTS::eMuon2Elec2},
-  {"NLeadJetCombinations", CUTS::eSusyCom},             {"METCut", CUTS::eMET} 
+  {"NLeadJetCombinations", CUTS::eSusyCom},             {"METCut", CUTS::eMET}/*,
+  {"NRecoMuon1MetTopology", CUTS::eTMuon1},             {"NRecoMuon2MetTopology", CUTS::eTMuon2}, 
+  {"NRecoElectron1MetTopology", CUTS::eTElec1},         {"NRecoElectron2MetTopology", CUTS::eTElec2}, 
+  {"NRecoTau1MetTopology", CUTS::eTTau1},               {"NRecoTau2MetTopology", CUTS::eTTau2}*/
 };
 
 
@@ -303,6 +306,7 @@ void Analyzer::preprocess(int event) {
   BOOM->GetEntry(event);
 
   theMETVector.SetPxPyPzE(Met[0], Met[1], Met[2], sqrt(pow(Met[0],2) + pow(Met[1],2)));
+  theMETVector_OnlyMET.SetPxPyPzE(Met[0], Met[1], Met[2], sqrt(pow(Met[0],2) + pow(Met[1],2)));
   pu_weight = (!isData && CalculatePUSystematics) ? hPU[(int)(nTruePU+1)] : 1.0;
 
   // SET NUMBER OF GEN PARTICLES
@@ -323,7 +327,7 @@ void Analyzer::preprocess(int event) {
   TriggerCuts(*(trigPlace[0]), *(trigName[0]), CUTS::eRTrig1);
   TriggerCuts(*(trigPlace[1]), *(trigName[1]), CUTS::eRTrig2);
   
-  updateMet();
+  //updateMet();
   
   // // SET NUMBER OF RECO PARTICLES
   // // MUST BE IN ORDER: Muon/Electron, Tau, Jet
@@ -335,13 +339,24 @@ void Analyzer::preprocess(int event) {
   getGoodRecoLeptons(*_Tau, CUTS::eRTau2, CUTS::eGTau, _Tau->pstats["Tau2"]);
   
 
-  getGoodRecoJets(CUTS::eRJet1, _Jet->pstats["Jet1"]);
-  getGoodRecoJets(CUTS::eRJet2, _Jet->pstats["Jet2"]);
-  getGoodRecoJets(CUTS::eRCenJet, _Jet->pstats["CentralJet"]);
-  getGoodRecoJets(CUTS::eRBJet, _Jet->pstats["BJet"]);
+  getGoodRecoJets(CUTS::eRJet1, _Jet->pstats["Jet1"], event);
+  getGoodRecoJets(CUTS::eRJet2, _Jet->pstats["Jet2"], event);
+  getGoodRecoJets(CUTS::eRCenJet, _Jet->pstats["CentralJet"], event);
+  getGoodRecoJets(CUTS::eRBJet, _Jet->pstats["BJet"], event);
   
-  getGoodRecoJets(CUTS::eR1stJet, _Jet->pstats["FirstLeadingJet"]);
-  getGoodRecoJets(CUTS::eR2ndJet, _Jet->pstats["SecondLeadingJet"]);
+  getGoodRecoJets(CUTS::eR1stJet, _Jet->pstats["FirstLeadingJet"], event);
+  getGoodRecoJets(CUTS::eR2ndJet, _Jet->pstats["SecondLeadingJet"], event);
+
+  /////  SET NUMBER OF RECO MET TOPOLOGY PARTICLES                                                                                                                  
+  /*getGoodMetTopologyLepton(*_Electron, CUTS::eRElec1, CUTS::eTElec1, _Electron->pstats["Elec1"]);
+  getGoodMetTopologyLepton(*_Electron, CUTS::eRElec2, CUTS::eTElec2, _Electron->pstats["Elec2"]);
+  getGoodMetTopologyLepton(*_Muon, CUTS::eRMuon1, CUTS::eTMuon1, _Muon->pstats["Muon1"]);
+  getGoodMetTopologyLepton(*_Muon, CUTS::eRMuon2, CUTS::eTMuon2, _Muon->pstats["Muon2"]);
+  getGoodMetTopologyLepton(*_Tau, CUTS::eRTau1, CUTS::eTTau1, _Tau->pstats["Tau1"]);
+  getGoodMetTopologyLepton(*_Tau, CUTS::eRTau2, CUTS::eTTau2, _Tau->pstats["Tau2"]);*/
+
+  ////Updates Met and does MET cut 
+  updateMet();
 
   ///VBF Susy cut on leadin jets
   VBFTopologyCut(distats["VBFSUSY"]);
@@ -479,17 +494,17 @@ void Analyzer::printCuts() {
 ///Calculates met from values from each file plus smearing and treating muons as neutrinos
 void Analyzer::updateMet() {
   ////// Neutrino update before calculation
-  // if(distats["Run"].bmap.at("TreatMuonsAsNeutrinos")) {
-  //   for(vec_iter it=goodParts[CUTS::eRMuon1]->begin(); it!=goodParts[CUTS::eRMuon1]->end(); it++) {
-  //     if(find(goodParts[CUTS::eRMuon2]->begin(), goodParts[CUTS::eRMuon2]->end(), (*it)) != goodParts[CUTS::eRMuon2]->end() ) continue;
-  //     deltaMEx += _Muon->smearP.at(*it).Px();
-  //     deltaMEy += _Muon->smearP.at(*it).Py();
-  //   }    
-  //   for(vec_iter it=goodParts[CUTS::eRMuon2]->begin(); it!=goodParts[CUTS::eRMuon2]->end(); it++) {
-  //     deltaMEx += _Muon->smearP.at(*it).Px();
-  //     deltaMEy += _Muon->smearP.at(*it).Py();
-  //   }
-  // }
+   if(distats["Run"].bmap.at("TreatMuonsAsNeutrinos")) {
+     for(vec_iter it=goodParts[CUTS::eRMuon1]->begin(); it!=goodParts[CUTS::eRMuon1]->end(); it++) {
+       if(find(goodParts[CUTS::eRMuon2]->begin(), goodParts[CUTS::eRMuon2]->end(), (*it)) != goodParts[CUTS::eRMuon2]->end() ) continue;
+       deltaMEx += _Muon->smearP.at(*it).Px();
+       deltaMEy += _Muon->smearP.at(*it).Py();
+     }    
+     for(vec_iter it=goodParts[CUTS::eRMuon2]->begin(); it!=goodParts[CUTS::eRMuon2]->end(); it++) {
+       deltaMEx += _Muon->smearP.at(*it).Px();
+       deltaMEy += _Muon->smearP.at(*it).Py();
+     }
+   }
   ///---MHT and HT calculations----////
   int i=0;
   for(vector<TLorentzVector>::iterator it=_Jet->smearP.begin(); it!=_Jet->smearP.end(); it++, i++) {
@@ -521,6 +536,9 @@ void Analyzer::setupGeneral(TTree* BOOM, string infile) {
   SetBranch("nTruePUInteractions", nTruePU);
   SetBranch("bestVertices", bestVertices);
   SetBranch("weightevt", gen_weight);
+  //SetBranch("Met_puppi_px", Met[0]);
+  //SetBranch("Met_puppi_py", Met[1]);
+  //SetBranch("Met_puppi_pz", Met[2]);
   SetBranch("Met_type1PF_px", Met[0]);
   SetBranch("Met_type1PF_py", Met[1]);
   SetBranch("Met_type1PF_pz", Met[2]);
@@ -936,7 +954,7 @@ void Analyzer::getGoodRecoLeptons(const Lepton& lep, const CUTS ePos, const CUTS
 
 ////Jet specific function for finding the number of jets that pass the cuts.
 //used to find the nubmer of good jet1, jet2, central jet, 1st and 2nd leading jets and bjet.
-void Analyzer::getGoodRecoJets(CUTS ePos, const PartStats& stats) {
+void Analyzer::getGoodRecoJets(CUTS ePos, const PartStats& stats, int event) {
   if(! need_cut[ePos]) return;
   int i=0;
   
@@ -953,6 +971,15 @@ void Analyzer::getGoodRecoJets(CUTS ePos, const PartStats& stats) {
 
     /// BJet specific
     if(ePos == CUTS::eRBJet) {
+      //Applying btag SF - from here
+      /*TRandom3* rand_;
+      rand_ = new TRandom3(event);
+      float coin = rand_->Uniform(1.);
+      double SF=0.817647*((1.+(0.038703*lvec.Pt()))/(1.+(0.0312388*lvec.Pt())));
+      bool isBTagged=false;
+      if(stats.bmap.at("ApplyJetBTagging") && _Jet->bDiscriminator->at(i) > stats.dmap.at("JetBTaggingCut")) {isBTagged=true;}
+      if( isBTagged && coin > SF ) {isBTagged = false;}
+      if( !isBTagged ) continue;*/ //Up to here
       if(stats.bmap.at("ApplyJetBTagging") && _Jet->bDiscriminator->at(i) <= stats.dmap.at("JetBTaggingCut")) continue;
       if((stats.bmap.at("MatchBToGen")) && !isData && abs(_Jet->partonFlavour->at(i)) != 5) continue;
     } else if (stats.bmap.at("ApplyLooseID") && !passedLooseJetID(i)) continue;
@@ -1072,10 +1099,59 @@ void Analyzer::VBFTopologyCut(const PartStats& stats) {
   if(stats.bmap.at("DiscrByAlpha")) {
     TLorentzVector addVec = ljet1 + ljet2;
     alpha = (addVec.M() > 0) ? ljet2.Pt() / addVec.M() : -1;
+
     if(alpha < stats.pmap.at("AlphaCut").first || alpha > stats.pmap.at("AlphaCut").second) return;
   }
-  if( !passCutRange("Dphi1", abs(dphi1), stats)) return;
-  if( !passCutRange("Dphi2", abs(dphi2), stats)) return;
+  if(stats.bmap.at("DiscrByDphi1"))
+    {
+      if( !passCutRange("Dphi1", abs(dphi1), stats)) return;
+    }
+  if(stats.bmap.at("DiscrByDphi2"))
+    {
+      if( !passCutRange("Dphi2", abs(dphi2), stats)) return;
+    }
+  if(stats.bmap.at("DiscrByDphi12"))
+    {
+      double dphi12 = normPhi(ljet1.Phi() - ljet2.Phi());
+      if( !passCutRange("Dphi12", abs(dphi12), stats)) return;
+    }
+  if(stats.bmap.at("DiscrByDphiAll"))
+    {
+      //cout << "------------------------------Entering Dphi all cut! --------------------------------------------------------------------------"  << endl;
+      //Particle* part = fillInfo["FillDiJet"]->part;
+      //CUTS ePos = fillInfo["FillDiJet"]->ePos;
+
+      //int DphiAll = 1;
+      //string CutName = "DphiAll";
+      //int JetCounter = 0;
+      double ClosestJettoMET = 3.15;
+      for(vec_iter it=goodParts[CUTS::eRJet1]->begin(); it!=goodParts[CUTS::eRJet1]->end(); it++) {
+	//cout << "Entering for on jets in the loop of Dphi all cut!"  << endl;
+	TLorentzVector jet;
+	//if (jet.Pt()<60) continue;
+	//jet = _Jet->smearP.at(*it);
+	//JetCounter++;
+	//if (JetCounter>=3) break;
+	//double dphivalue = abs(normPhi(jet.Phi() - theMETVector.Phi()));
+	//cout << dphivalue << endl;
+	if (absnormPhi(jet.Phi() - theMETVector.Phi())<ClosestJettoMET){
+	  ClosestJettoMET=absnormPhi(jet.Phi() - theMETVector.Phi());
+	}
+
+	//if (dphivalue>stats.pmap.at(CutName + "Cut").first && dphivalue<stats.pmap.at(CutName + "Cut").second){
+	//DphiAll*=1;
+	  //cout << "Passed: " << " " << DphiAll << " " << dphivalue << endl;
+	//}
+	//else {
+	  //DphiAll*=0;
+	  //cout << "Not passed: " << " " << DphiAll << " " << dphivalue << endl;
+	  //}
+      }
+      
+      //if (DphiAll!=1) return;
+      if( !passCutRange("DphiAll", ClosestJettoMET, stats)) return;      
+      
+    }
 
   goodParts[CUTS::eSusyCom]->push_back(0);
 }
@@ -1086,11 +1162,31 @@ inline bool Analyzer::passCutRange(string CutName, double value, const PartStats
 }
 
 
+/*void Analyzer::getGoodMetTopologyLepton(const Lepton& lep, CUTS eReco, CUTS ePos, const PartStats& stats) {
+  if(! need_cut[ePos]) return;
+  for(vec_iter it=goodParts[ival(eReco)].begin(); it != goodParts[ival(eReco)].end(); it++) {
+    if ((ePos != CUTS::eTTau1 && ePos != CUTS::eTTau2) && stats.bmap.at("DiscrIfIsZdecay")) {
+      if(isZdecay(lep.smearP.at(*it), lep)) continue;
+    }
+
+    if (stats.bmap.at("DiscrByMetDphi")) {
+      double Dphi = absnormPhi(lep.smearP.at(*it).Phi() - theMETVector.Phi());
+      if(Dphi < stats.pmap.at("MetDphiCut").first || Dphi > stats.pmap.at("MetDphiCut").second) continue;
+    }
+
+    if (stats.bmap.at("DiscrByMetMt")) {
+      double LeptonMetMt = calculateLeptonMetMt(lep.smearP.at(*it));
+      if( LeptonMetMt < stats.pmap.at("MetMtCut").first || LeptonMetMt > stats.pmap.at("MetMtCut").second) continue;
+    }
+    goodParts[ival(ePos)].push_back(*it);
+  }
+  }*/
+
 //-----Calculate lepton+met transverse mass
 double Analyzer::calculateLeptonMetMt(const TLorentzVector& Tobj) {
-  double px = Tobj.Px() + theMETVector.Px();
-  double py = Tobj.Py() + theMETVector.Py();
-  double et = Tobj.Et() + theMETVector.Energy(); //TMath::Sqrt((theMETVector.Px() * theMETVector.Px()) + (theMETVector.Py() * theMETVector.Py()));
+  double px = Tobj.Px() + theMETVector_OnlyMET.Px();
+  double py = Tobj.Py() + theMETVector_OnlyMET.Py();
+  double et = Tobj.Et() + theMETVector_OnlyMET.Energy(); //TMath::Sqrt((theMETVector.Px() * theMETVector.Px()) + (theMETVector.Py() * theMETVector.Py()));
   double mt2 = et*et - (px*px + py*py);
   return (mt2 >= 0) ? sqrt(mt2) : -1;
 }
@@ -1116,6 +1212,15 @@ double Analyzer::diParticleMass(const TLorentzVector& Tobj1, const TLorentzVecto
       return The_LorentzVect.M();
     }
   } 
+
+  if(howCalc == "InvariantMass") {
+    double px = Tobj1.Px() + Tobj2.Px();
+    double py = Tobj1.Py() + Tobj2.Py();
+    double pz = Tobj1.Pz() + Tobj2.Pz();
+    double e  = Tobj1.Energy() + Tobj2.Energy();
+    The_LorentzVect.SetPxPyPzE(px, py, pz, e);
+    return The_LorentzVect.M();
+  }
 
   if(howCalc == "VectorSumOfVisProductsAndMet" || ratioNotInRange) {
     return (Tobj1 + Tobj2 + theMETVector).M();
@@ -1361,6 +1466,8 @@ void Analyzer::fill_Folder(string group, const int max) {
     Particle* part = fillInfo[group]->part;
     CUTS ePos = fillInfo[group]->ePos;
 
+    double ClosestJettoMET = 3.15;
+
     for(vec_iter it=goodParts[ePos]->begin(); it!=goodParts[ePos]->end(); it++) {
       histAddVal(part->smearP.at(*it).Energy(), "Energy");
       histAddVal(part->smearP.at(*it).Pt(), "Pt");
@@ -1373,6 +1480,12 @@ void Analyzer::fill_Folder(string group, const int max) {
       } 
       if(part->type != PType::Jet) {
       	histAddVal(calculateLeptonMetMt(part->smearP.at(*it)), "MetMt");  
+      }
+      if(part->type == PType::Jet) {
+	histAddVal(absnormPhi(part->smearP.at(*it).Phi() - theMETVector.Phi()), "AllDeltaPhi");
+	if (absnormPhi(part->smearP.at(*it).Phi() - theMETVector.Phi())<ClosestJettoMET){
+	  ClosestJettoMET=absnormPhi(part->smearP.at(*it).Phi() - theMETVector.Phi());
+	}
       }
     }
     if((part->type != PType::Jet ) && goodParts[ePos]->size() > 0) {
@@ -1389,8 +1502,11 @@ void Analyzer::fill_Folder(string group, const int max) {
       histAddVal(leadeta, "FirstLeadingEta");
     }
 
-    histAddVal(goodParts[ePos]->size(), "N");
+    if((part->type == PType::Jet ) && goodParts[ePos]->size() > 0) {
+      histAddVal(ClosestJettoMET, "ClosestJetToMETDPhi");
+    }
 
+    histAddVal(goodParts[ePos]->size(), "N");
 
   } else if(group == "FillMetCuts") {
     histAddVal(sqrt((sumpxForMht * sumpxForMht) + (sumpyForMht * sumpyForMht)), "MHT");
@@ -1426,7 +1542,7 @@ void Analyzer::fill_Folder(string group, const int max) {
     histAddVal(LeadDiJet.M(), "Mass"); 
     histAddVal(LeadDiJet.Pt(), "Pt");  
     histAddVal(fabs(first.Eta() - second.Eta()), "DeltaEta"); 
-    histAddVal(first.DeltaR(second), "DeltaR");  
+    histAddVal(first.DeltaR(second), "DeltaR");
 
     double dphiDijets = absnormPhi(first.Phi() - second.Phi());
     double dphi1 = normPhi(first.Phi() - theMETVector.Phi());
@@ -1448,6 +1564,8 @@ void Analyzer::fill_Folder(string group, const int max) {
     histAddVal(dphi1, "Dphi1");
     histAddVal(dphi2, "Dphi2");
     histAddVal2(dphi1,dphi2, "Dphi1VsDphi2");
+    histAddVal2(dphiDijets,dphi2, "Dphi12VsDphi2");
+    histAddVal2(dphiDijets,dphi1, "Dphi12VsDphi1");
     histAddVal(alpha, "Alpha");
 
 
@@ -1458,6 +1576,12 @@ void Analyzer::fill_Folder(string group, const int max) {
     double leaddijetdeltaR = 0;
     double leaddijetdeltaEta = 0;
     double etaproduct = 0;
+    double deltaetaleaddijetmass = 0;
+    bool FirstPairOfJets = true;
+    double dphiDijets = 0;
+    double dphi1 = 0;
+    double dphi2 = 0;
+    double ClosestJettoMET = 3.15;
     for(vec_iter it=goodParts[CUTS::eDiJet]->begin(); it!=goodParts[CUTS::eDiJet]->end(); it++) {
       int p1 = (*it) / _Jet->smearP.size();
       int p2 = (*it) % _Jet->smearP.size();
@@ -1468,25 +1592,57 @@ void Analyzer::fill_Folder(string group, const int max) {
       if(DiJet.M() > leaddijetmass) {
 	leaddijetmass = DiJet.M();
 	etaproduct = (jet1.Eta() * jet2.Eta() > 0) ? 1 : -1;
+	deltaetaleaddijetmass = abs(jet1.Eta()-jet2.Eta());
+	//cout << "Finding largest dijet mass delta eta:" << deltaetaleaddijetmass << endl;
+	//cout << "Finding largest dijet mass:" << leaddijetmass << endl;
       }
       if(DiJet.Pt() > leaddijetpt) leaddijetpt = DiJet.Pt();
       if(fabs(jet1.Eta() - jet2.Eta()) > leaddijetdeltaEta) leaddijetdeltaEta = fabs(jet1.Eta() - jet2.Eta());
       if(jet1.DeltaR(jet2) > leaddijetdeltaR) leaddijetdeltaR = jet1.DeltaR(jet2);
 
+      if(FirstPairOfJets) {
+	dphiDijets = absnormPhi(jet1.Phi() - jet2.Phi());
+	dphi1 = normPhi(jet1.Phi() - theMETVector.Phi());
+	dphi2 = normPhi(jet2.Phi() - theMETVector.Phi());
+	FirstPairOfJets = false;
+      }
+
+      if (absnormPhi(jet1.Phi() - theMETVector.Phi())<ClosestJettoMET || absnormPhi(jet2.Phi() - theMETVector.Phi())<ClosestJettoMET){
+	if (absnormPhi(jet1.Phi() - theMETVector.Phi())<absnormPhi(jet2.Phi() - theMETVector.Phi())){
+	  ClosestJettoMET=absnormPhi(jet1.Phi() - theMETVector.Phi());
+	}
+	else {
+	  ClosestJettoMET=absnormPhi(jet2.Phi() - theMETVector.Phi());
+	}
+      }
+
       histAddVal(DiJet.M(), "Mass");
       histAddVal(DiJet.Pt(), "Pt");
       histAddVal(fabs(jet1.Eta() - jet2.Eta()), "DeltaEta");
       histAddVal(absnormPhi(jet1.Phi() - jet2.Phi()), "DeltaPhi");
+      histAddVal(absnormPhi(jet1.Phi() - theMETVector.Phi()), "DeltaPhiAll");
+      histAddVal(absnormPhi(jet2.Phi() - theMETVector.Phi()), "DeltaPhiAll");
       histAddVal(jet1.DeltaR(jet2), "DeltaR");
     }
 
-
+    //histAddVal(leaddijetmass, "LargestMass1");
+    //histo.addVal(leaddijetmass,"FillDiJet",histo.get_maxfolder(), "LargestMass2",1);
     histAddVal(leaddijetmass, "LargestMass");
     histAddVal(leaddijetpt, "LargestPt");  
     histAddVal(leaddijetdeltaEta, "LargestDeltaEta");
     histAddVal(leaddijetdeltaR, "LargestDeltaR");
     histAddVal(etaproduct, "LargestMassEtaProduct");
+    //histo.addVal(deltaetaleaddijetmass, "FillDiJet", 1, "LargestMassDiJetDeltaEta", 1.0);
+    //cout << "Prepared to fill histograms with--------------------------------------------------------->" << endl;
+    //cout << leaddijetmass << " " << dphi1 << " " << dphi2 << " " << dphiDijets << endl;
+    histAddVal(deltaetaleaddijetmass, "LargestMassDeltaEta");
+    histAddVal(dphiDijets, "LeadSubleadDeltaPhi");
+    histAddVal(ClosestJettoMET, "ClosestJettoMETDeltaPhi");
+    histAddVal2(leaddijetmass,ClosestJettoMET, "LargestMassVsClosestJettoMETDphi");
 
+    histAddVal2(leaddijetmass,abs(dphi1), "LargestMassVsDphi1");
+    histAddVal2(leaddijetmass,abs(dphi2), "LargestMassVsDphi2");
+    histAddVal2(leaddijetmass,abs(dphiDijets), "LargestMassVsdphiDijets");
 
     ////diparticle stuff
   } else if(fillInfo[group]->type == FILLER::Dipart) {
@@ -1562,11 +1718,11 @@ void Analyzer::fill_Folder(string group, const int max) {
 void Analyzer::initializePileupInfo(string MCHisto, string DataHisto) {
 
   TFile *file1 = new TFile((PUSPACE+MCHisto).c_str());
-  TH1D* histmc = (TH1D*)file1->FindObjectAny("NVertices_0");
+  TH1D* histmc = (TH1D*)file1->FindObjectAny("pileup");
   if(!histmc) throw std::runtime_error("failed to extract histogram");
 
   TFile* file2 = new TFile((PUSPACE+DataHisto).c_str());
-  TH1D* histdata = (TH1D*)file2->FindObjectAny("NVertices_0");
+  TH1D* histdata = (TH1D*)file2->FindObjectAny("pileup");
   if(!histdata) throw std::runtime_error("failed to extract histogram");
 
   double factor = histmc->Integral() / histdata->Integral();

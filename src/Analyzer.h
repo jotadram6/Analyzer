@@ -22,6 +22,8 @@ struct CRTester;
 #include <TTree.h>
 #include <TH1.h>
 
+#include "TRandom3.h"
+
 #include "Particle.h"
 #include "Histo.h"
 #include "Cut_enum.h"
@@ -85,9 +87,9 @@ class Analyzer {
   void getGoodTauNu();  
   void getGoodGen(const PartStats&);
   void getGoodRecoLeptons(const Lepton&, const CUTS, const CUTS, const PartStats&);
-  void getGoodRecoJets(CUTS, const PartStats&);
+  void getGoodRecoJets(CUTS, const PartStats&, int);
 
-  void getGoodMetTopologyLepton(const Lepton&, CUTS,CUTS, const PartStats&);
+  //void getGoodMetTopologyLepton(const Lepton&, CUTS,CUTS, const PartStats&);
   void getGoodLeptonCombos(Lepton&, Lepton&, CUTS,CUTS,CUTS, const PartStats&);
   void getGoodDiJets(const PartStats&);
 
@@ -150,6 +152,7 @@ class Analyzer {
   vector<int> cuts_per, cuts_cumul;
 
   TLorentzVector theMETVector;
+  TLorentzVector theMETVector_OnlyMET;
   double deltaMEx, deltaMEy, sumpxForMht, sumpyForMht, sumptForHt, phiForMht;
 
   double maxIso, minIso;

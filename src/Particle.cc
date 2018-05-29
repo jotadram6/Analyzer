@@ -116,6 +116,9 @@ Muon::Muon(TTree* _BOOM, string filename) : Lepton(_BOOM, "Muon", filename) {
   if(pstats["Muon1"].bmap["DoDiscrByTightID"] || pstats["Muon2"].bmap["DoDiscrByTightID"]) {
     SetBranch("Muon_tight", tight);
   }
+  if(pstats["Muon1"].bmap["DoDiscrByMediumID"] || pstats["Muon2"].bmap["DoDiscrByMediumID"]) {
+    SetBranch("Muon_medium", medium);
+  }
   if(pstats["Muon1"].bmap["DoDiscrBySoftID"] || pstats["Muon2"].bmap["DoDiscrBySoftID"]) {
     SetBranch("Muon_soft", soft);
   }

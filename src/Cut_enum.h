@@ -60,6 +60,7 @@ enum class CUTS {
   eElec1Tau1,   eElec1Tau2,   eElec2Tau1,   eElec2Tau2, 
   eMuon1Elec1,  eMuon1Elec2,  eMuon2Elec1,  eMuon2Elec2, 
   eSusyCom,     eMET,         eNuTau,       eRTrig1,      eRTrig2,
+    //eTMuon1, eTMuon2, eTElec1, eTElec2, eTTau1, eTTau2,
     First = eGen,
     Last = eRTrig2};
 
