@@ -1,0 +1,105 @@
+#######################################
+              DiTau
+#######################################
+
+DiscrByDeltaR  true
+DeltaRCut      0.3
+
+DiscrByOSLSType  None	#### OS or LS
+DiscrByCosDphi	 false
+CosDphiCut 	 -1.00   -0.90
+
+DiscrByCosDphi_DeltaPtAndMet   false
+CosDphi_DeltaPtMetCut  -1.0  -0.9
+MassBySVFit    false
+Name    100     0     5000
+
+
+DiscrByMassReco  false
+HowCalculateMassReco  VectorSumOfVisProductsAndMet       ###VectorSumOfVisProductsAndMet   or    CollinearApprox 
+MassCut          100.0   10000.0
+
+DiscrByCDFzeta2D          false
+PZetaCutCoefficient       1.0
+PZetaVisCutCoefficient    -3.1
+CDFzeta2DCutValue         -50.0    1000
+
+DiscrByDeltaPtDivSumPt     false
+DeltaPtDivSumPtCutValue    0.4  1.0
+DiscrByDeltaPt 		   false
+DeltaPtCutValue 	   50.0   1000.0
+
+######################################
+               DiMuon
+#####################################
+
+DiscrByDeltaR  false
+DeltaRCut      0.3 
+
+DiscrByOSLSType  None
+DiscrByCosDphi	 false
+CosDphiCut 	 -1.00   -0.95
+
+DiscrByCosDphi_DeltaPtAndMet   false
+CosDphi_DeltaPtMetCut  0.8  1.0
+
+DiscrByMassReco  false
+HowCalculateMassReco VectorSumOfVisProductsAndMet     ###VectorSumOfVisProductsAndMet   or    CollinearApprox 
+MassCut          150.0   10000.0
+
+DiscrByCDFzeta2D          false
+PZetaCutCoefficient       1.0
+PZetaVisCutCoefficient    -3.1
+CDFzeta2DCutValue         -50.0    1000
+
+DiscrByDeltaPtDivSumPt     false
+DeltaPtDivSumPtCutValue    0.1  1.0
+DiscrByDeltaPt 		   false
+DeltaPtCutValue 	   30.0   9999.0
+
+########################################
+               DiElectron
+#######################################
+
+DiscrByDeltaR  true
+DeltaRCut      0.3 
+
+DiscrByOSLSType  None
+DiscrByCosDphi	 false
+CosDphiCut 	 -1.00   -0.95
+
+DiscrByCosDphi_DeltaPtAndMet   false
+CosDphi_DeltaPtMetCut  0.8  1.0
+
+DiscrByMassReco  false
+HowCalculateMassReco None     ###VectorSumOfVisProductsAndMet   or    CollinearApprox 
+MassCut          150.0   10000.0
+
+DiscrByCDFzeta2D          false
+PZetaCutCoefficient       1.0
+PZetaVisCutCoefficient    -3.1
+CDFzeta2DCutValue         -50.0    9999.0
+
+DiscrByDeltaPtDivSumPt     false
+DeltaPtDivSumPtCutValue    0.1  1.0
+DiscrByDeltaPt 		   false
+DeltaPtCutValue 	   30.0   1000.0
+
+
+#########################################
+               DiJet
+#####################################
+
+DiscrByDeltaR true
+DeltaRCut 0.3
+
+DiscrByDeltaEta     true
+DeltaEtaCut         3.8  9999.0
+DiscrByDeltaPhi      false
+DeltaPhiCut         0    9999.0
+DiscrByOSEta true
+DiscrByCosDphi false
+CosDphiCut  -1.00 -0.80
+
+DiscrByMassReco true
+MassCut 1000.0 9999.0

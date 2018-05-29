@@ -1,0 +1,36 @@
+####################################
+                Run
+####################################
+
+CalculatePUSystematics false
+DataHistos PU2016data_15p9ifb.root
+MCHistos PU2016MC.root
+
+isData true
+ApplyGenWeight false
+
+///------Triggers-----///
+
+Trigger1FirstRequirement HLT_IsoMu22_v
+Trigger1SecondRequirement HLT_IsoMu22_v
+
+Trigger2FirstRequirement HLT_DiPFJet40_DEta3p5_MJJ600_PFMETNoMu140_v
+Trigger2SecondRequirement HLT_DiPFJet40_DEta3p5_MJJ600_PFMETNoMu140_v
+
+///---Treat Muon as Neutrino---///
+
+TreatMuonsAsNeutrinos 1
+
+///-----MET cuts------///
+
+DiscrByMet true
+RecoMetCut 250.0 10000.0
+
+DiscrByMHT false
+MhtCut 50.0
+DiscrByHT false
+HtCut 400.0
+
+JetPtForMhtAndHt 30.0
+JetEtaForMhtAndHt 5.0
+ApplyJetLooseIDforMhtAndHt true

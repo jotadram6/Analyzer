@@ -13,4 +13,4 @@ work_svfit
 PartDet/*.in
 *.C
 Analyze_Grid/
-Analyses/
+
