@@ -185,7 +185,7 @@ DiJetDeltaPhiAll       64   0    +3.2
 DiJetMass            1000   0  5000
 DiJetPt              1000   0  5000
 
-LargestDiJetMass        5   500  1000
+LargestDiJetMass        20   1000  5000
 LargestDiJetPt          1000   0  5000
 LargestMassDiJetEtaProduct     4  -2     2
 LargestDiJetDeltaR       200   0    10.
