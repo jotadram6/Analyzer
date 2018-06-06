@@ -971,8 +971,8 @@ void Analyzer::getGoodRecoJets(CUTS ePos, const PartStats& stats, int event) {
 
     /// BJet specific
     if(ePos == CUTS::eRBJet) {
-      //Applying btag SF - from here
-      /*TRandom3* rand_;
+      /*//Applying btag SF - from here
+      TRandom3* rand_;
       rand_ = new TRandom3(event);
       float coin = rand_->Uniform(1.);
       double SF=0.817647*((1.+(0.038703*lvec.Pt()))/(1.+(0.0312388*lvec.Pt())));
@@ -1640,6 +1640,7 @@ void Analyzer::fill_Folder(string group, const int max) {
     histAddVal(ClosestJettoMET, "ClosestJettoMETDeltaPhi");
     histAddVal2(leaddijetmass,ClosestJettoMET, "LargestMassVsClosestJettoMETDphi");
 
+    histAddVal2(leaddijetmass,theMETVector.Pt(), "LargestMassVsMet");
     histAddVal2(leaddijetmass,abs(dphi1), "LargestMassVsDphi1");
     histAddVal2(leaddijetmass,abs(dphi2), "LargestMassVsDphi2");
     histAddVal2(leaddijetmass,abs(dphiDijets), "LargestMassVsdphiDijets");
